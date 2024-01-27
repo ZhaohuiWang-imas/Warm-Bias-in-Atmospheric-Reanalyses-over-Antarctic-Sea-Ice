@@ -98,19 +98,32 @@ data_name={'ERA5', 'JRA55'};
 for type=1:2
 for i=1:332
     for j=1:316
-      b=permute(eval(['data_cloud_',data_name{type},'(i,j,:)']),[3 2 1]);
-      %b1=b(~isnan(b));
       a=permute(data_cloud_CERES(i,j,:),[3 2 1]);
-      %a1=a(~isnan(b));
-      %if isempty(a) || length(a1)<50
-      %    Corr(i,j,type)=nan;
-      %    pvalue(i,j,type)=nan;
-      %else
-            %[R,P] = corrcoef(b1,a1); 
-            [R,P] = corrcoef(b,a); 
-            Corr(i,j,type)=R(1,2);
-            pvalue(i,j,type)=P(1,2);
-      %end
+      a1=a(~isnan(a));
+      b=permute(eval(['data_cloud_',data_name{type},'(i,j,:)']),[3 2 1]);
+      b1=b(~isnan(a));
+      
+      [R,~] = corrcoef(b1,a1); 
+      r=R(1,2); % this is the corr coef
+      
+      % calculating p value considering the autocorrelation
+        if ~isnan(b1)
+        n = length(b1);
+        autocorr1 = autocorr(a1, 1);
+        autocorr2 = autocorr(b1, 1);
+        adjustedSampleSize = n * (1 - autocorr1(2) * autocorr2(2)) / (1 + autocorr1(2) * autocorr2(2));
+        % 计算 t 统计量
+        t = r * sqrt((adjustedSampleSize - 2) / (1 - r^2));
+        % 计算 P 值
+        pValue = 2 * (1 - tcdf(abs(t), adjustedSampleSize - 2));
+        else
+        pValue=nan;
+        adjustedSampleSize=nan;
+        end
+    
+    Neff1(i,j,type)=adjustedSampleSize;
+    Corr1(i,j,type)=r;
+    pvalue1(i,j,type)=pValue;
     end
    i
 end
@@ -127,19 +140,13 @@ q=1;
     for j=1:2
         axes(ha(q));
         m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47,'rectbox','on');
-        m_contourf(lons,lats,Corr(:,:,j), -1:0.1:1,'LineStyle','None');
+        m_contourf(lons,lats,Corr1(:,:,j), -1:0.1:1,'LineStyle','None');
         m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
         hold on
-        a=pvalue(:,:,j);
-        [a3 a4]=find(a>0.05);
-        
-        LAT=[];
-        LONG=[];
-        for i=1:length(a3)
-        LAT(i)=lats(a3(i),a4(i));
-        LONG(i)=lons(a3(i),a4(i));
-        end
-        m_scatter(LONG,LAT,1,'*','k');
+        a=pvalue1(:,:,j);
+        LON=lons(1:10:end,1:10:end);LAT=lats(1:10:end,1:10:end);
+        a_reduce=a(1:10:end,1:10:end);
+        m_scatter(LON(a_reduce<0.05),LAT(a_reduce<0.05),25,'k','.');
         hold off
         m_gshhs_l('color','k');
         caxis([0 0.8])
@@ -392,19 +399,13 @@ set(h,'position',[.42 .76 .01 .18])
 
 ax2=axes('position',[0.1+0.16+0.24 0.75 .15 .20]); % [left bottom width height]
 m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47,'rectbox','on');
-m_contourf(lons,lats,Corr(:,:,1), -1:0.1:1,'LineStyle','None');
+m_contourf(lons,lats,Corr1(:,:,1), -1:0.1:1,'LineStyle','None');
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 hold on
-a=pvalue(:,:,1);
-[a3 a4]=find(a>0.05);
-
-% LAT=[];
-% LONG=[];
-% for i=1:length(a3)
-% LAT(i)=lats(a3(i),a4(i));
-% LONG(i)=lons(a3(i),a4(i));
-% end
-%m_scatter(LONG,LAT,1,'*','k');
+a=pvalue1(:,:,1);
+LON=lons(1:10:end,1:10:end);LAT=lats(1:10:end,1:10:end);
+a_reduce=a(1:10:end,1:10:end);
+m_scatter(LON(a_reduce>0.05),LAT(a_reduce>0.05),25,'k','.');
 hold off
 m_gshhs_l('color','k');
 caxis([0 0.8])
@@ -415,19 +416,13 @@ m_text(-37,-39,text_no1{3},'fontsize',18,'fontname','bold')
 
 ax2=axes('position',[0.1+0.16+0.24+0.16 0.75 .15 .20]); % [left bottom width height]
 m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47,'rectbox','on');
-m_contourf(lons,lats,Corr(:,:,2), -1:0.1:1,'LineStyle','None');
+m_contourf(lons,lats,Corr1(:,:,2), -1:0.1:1,'LineStyle','None');
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 hold on
-a=pvalue(:,:,2);
-[a3 a4]=find(a>0.05);
-
-% LAT=[];
-% LONG=[];
-% for i=1:length(a3)
-% LAT(i)=lats(a3(i),a4(i));
-% LONG(i)=lons(a3(i),a4(i));
-% end
-%m_scatter(LONG,LAT,1,'*','k');
+a=pvalue1(:,:,2);
+LON=lons(1:10:end,1:10:end);LAT=lats(1:10:end,1:10:end);
+a_reduce=a(1:10:end,1:10:end);
+m_scatter(LON(a_reduce>0.05),LAT(a_reduce0.05),25,'k','.');
 hold off
 m_gshhs_l('color','k');
 caxis([0 0.8])

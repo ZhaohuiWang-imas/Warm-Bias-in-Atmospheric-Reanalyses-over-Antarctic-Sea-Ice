@@ -98,6 +98,7 @@ for i=1:332
     pValue = 2 * (1 - tcdf(abs(t), adjustedSampleSize - 2));
     else
     pValue=nan;
+    adjustedSampleSize=nan;
     end
     
     Neff1(i,j,type)=adjustedSampleSize;
