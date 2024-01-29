@@ -4,12 +4,12 @@ dates = datenum('01-Dec-2002'):datenum('30-Nov-2020');
 datestr = datestr(dates, 'yyyymmdd');
 datevec=datevec(dates);
 
-x0=(1:length(datevec))';
-[x1,]=find(datevec(:,2)==3 | datevec(:,2)==1 | datevec(:,2)==2);
-[x2,]=find(datevec(:,2)==6 | datevec(:,2)==4 | datevec(:,2)==5);
-[x3,]=find(datevec(:,2)==9 | datevec(:,2)==7 | datevec(:,2)==8);
-[x4,]=find(datevec(:,2)==12 | datevec(:,2)==10 | datevec(:,2)==11);
-X={x0,x1,x2,x3,x4};
+% x0=(1:length(datevec))';
+% [x1,]=find(datevec(:,2)==3 | datevec(:,2)==1 | datevec(:,2)==2);
+% [x2,]=find(datevec(:,2)==6 | datevec(:,2)==4 | datevec(:,2)==5);
+% [x3,]=find(datevec(:,2)==9 | datevec(:,2)==7 | datevec(:,2)==8);
+% [x4,]=find(datevec(:,2)==12 | datevec(:,2)==10 | datevec(:,2)==11);
+% X={x0,x1,x2,x3,x4};
 
 cd /Users/zhaohuiw/Desktop/Work/programming_files_stage2/modis/nsidc_grid_tools
 
@@ -74,4 +74,12 @@ set(get(h,'Title'),'string','W m^-^2')
 end
 end
 
+%% calculate the domain-averge ice heat conduction from model
 
+ load('/Volumes/ExtremePro/WANG_SSD/programming_files_stage2/modis/nsidc_grid_tools/area_nasa.mat')
+    area_nasa=area_nasa';
+    ERA5_domain=sum(R(:,:,1).*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(R(:,:,1))),'all','omitnan');
+    JRA55_domain=sum(R(:,:,2).*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(R(:,:,2))),'all','omitnan');
+    Diff_domain=sum((R(:,:,1)-R(:,:,2)).*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(R(:,:,1)-R(:,:,2))),'all','omitnan');
+
+    % -35.5847 for JRA55, -52.3459 for ERA5, -16.7694 for diff
