@@ -17,7 +17,7 @@ X={x0,x1,x2,x3,x4};
 
 for j=1:5
 for i=1:length(X{j})
-   load(['/Volumes/ExtremePro/WANG_SSD/modified_IST_satellite_clearsky/IST_satellite_',datestr(X{j}(i),:),'.mat'])
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestr(X{j}(i),:),'.mat']) % resampling methods changed to Gauss
    data_satellite(~isnan(data_satellite))=1;
    data_density_satellite_hourly(:,:,i)=nansum(data_satellite,3);
    %data_density_satellite_6hourly(:,:,i)=nansum(data_satellite(:,:,1:6:end),3);   
@@ -34,7 +34,7 @@ end
 %% this is the second line of the figure: the mean temperature from MODIS
 % total
 for i=1:length(datevec)
-   load(['/Volumes/ExtremePro/WANG_SSD/modified_IST_satellite_clearsky/IST_satellite_',datestr(i,:),'.mat'])
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestr(i,:),'.mat'])
    data_satellite_tot(:,:,i)=nanmean(data_satellite,3); 
 end
 satellite_ME_tot=nanmean(data_satellite_tot,3);
@@ -42,7 +42,7 @@ clear data_satellite_tot
 % DJF
 [x1,]=find(datevec(:,2)==3 | datevec(:,2)==1 | datevec(:,2)==2);
 for i=1:length(x1)
-   load(['/Volumes/ExtremePro/WANG_SSD/modified_IST_satellite_clearsky/IST_satellite_',datestr(x1(i),:),'.mat'])
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestr(x1(i),:),'.mat'])
    data_satellite_DJF(:,:,i)=nanmean(data_satellite,3); 
 end
 satellite_ME_DJF=nanmean(data_satellite_DJF,3);
@@ -50,7 +50,7 @@ clear data_satellite_DJF
 % MAM
 [x1,]=find(datevec(:,2)==6 | datevec(:,2)==4 | datevec(:,2)==5);
 for i=1:length(x1)
-   load(['/Volumes/ExtremePro/WANG_SSD/modified_IST_satellite_clearsky/IST_satellite_',datestr(x1(i),:),'.mat'])
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestr(x1(i),:),'.mat'])
    data_satellite_MAM(:,:,i)=nanmean(data_satellite,3); 
 end
 satellite_ME_MAM=nanmean(data_satellite_MAM,3);
@@ -58,7 +58,7 @@ clear data_satellite_MAM
 % JJA
 [x1,]=find(datevec(:,2)==9 | datevec(:,2)==7 | datevec(:,2)==8);
 for i=1:length(x1)
-   load(['/Volumes/ExtremePro/WANG_SSD/modified_IST_satellite_clearsky/IST_satellite_',datestr(x1(i),:),'.mat'])
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestr(x1(i),:),'.mat'])
    data_satellite_JJA(:,:,i)=nanmean(data_satellite,3); 
 end
 satellite_ME_JJA=nanmean(data_satellite_JJA,3);
@@ -66,7 +66,7 @@ clear data_satellite_JJA
 % SON
 [x1,]=find(datevec(:,2)==12 | datevec(:,2)==10 | datevec(:,2)==11);
 for i=1:length(x1)
-   load(['/Volumes/ExtremePro/WANG_SSD/modified_IST_satellite_clearsky/IST_satellite_',datestr(x1(i),:),'.mat'])
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestr(x1(i),:),'.mat'])
    data_satellite_SON(:,:,i)=nanmean(data_satellite,3); 
 end
 satellite_ME_SON=nanmean(data_satellite_SON,3);
@@ -123,7 +123,7 @@ m_contour(lons,lats,seaice_conc_cdr_climitology{i},[0.8 0.8],'red','LineWidth',2
 hold off
 caxis([-40 10])
 %h=colorbar('eastoutside');
-caxis([0 12])
+caxis([0 6])
 cmocean('amp',24)
 m_gshhs_l('color','k');
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');

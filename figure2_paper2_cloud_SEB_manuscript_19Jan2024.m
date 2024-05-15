@@ -17,9 +17,13 @@ cd /Users/zhaohuiw/Desktop/Work/programming_files_stage2/modis/nsidc_grid_tools
 load('lon25.mat')
 load('lat25.mat')
 
-cd /Users/zhaohuiw/Desktop/Onedrive_backup/PHD_Thesis/figures_code/paper2
-load Figure16_paper2_corr_CERES_TCF *_ME_masked
+%change to gauss resampling method, code below are not used:
+%cd /Users/zhaohuiw/Desktop/Onedrive_backup/PHD_Thesis/figures_code/paper2
+%load Figure16_paper2_corr_CERES_TCF *_ME_masked
 
+% now changed to gauss resampling method
+cd /Users/zhaohuiw/Documents/GitHub/Warm-Bias-in-Atmospheric-Reanalyses-over-Antarctic-Sea-Ice
+load cloud_fra_clear_sky *_ME_masked
 
 text_no1={'(a)','(b)','(c)','(d)','(e)','(f)','(g)'};
 

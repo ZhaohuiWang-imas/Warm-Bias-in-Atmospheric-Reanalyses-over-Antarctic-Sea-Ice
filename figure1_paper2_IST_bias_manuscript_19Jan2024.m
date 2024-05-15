@@ -14,9 +14,8 @@ x0=(1:length(datevec))';
 [x4,]=find(datevec(:,2)==12 | datevec(:,2)==10 | datevec(:,2)==11);
 X={x0,x1,x2,x3,x4};
 
-cd /Users/zhaohuiw/Desktop
-
-load('data_ME.mat')
+cd /Volumes/ExtremePro/MODIS_gauss %changed the MODIS IST resampling methods as response to reviewer comments
+load('data_ME_gauss17km.mat')
 
 % only considering the annual mean; so only choose the j=1
 j=1;
@@ -76,8 +75,8 @@ end
 
 % plot IST biases with 20% TCF mask
 
-cd /Users/zhaohuiw/Desktop
-load('data_ME_02cloud.mat')
+cd /Volumes/ExtremePro/MODIS_gauss %changed the MODIS IST resampling methods as response to reviewer comments
+load('data_ME_02cloud_gauss17km.mat')
 % only considering the annual mean; so only choose the j=1
 j=1;
 ERA5_ME_season=nanmean(data_ME_ERA5(:,:,X{j}),3);
