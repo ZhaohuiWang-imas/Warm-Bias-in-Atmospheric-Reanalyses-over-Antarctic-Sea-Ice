@@ -27,8 +27,9 @@ SWDNB_20=permute(ncread('/Volumes/ExtremePro/Extreme_SSD/GRDFLX_test/WRF_SIT_20_
 SWUPB_20=permute(ncread('/Volumes/ExtremePro/Extreme_SSD/GRDFLX_test/WRF_SIT_20_nosnow/SEB_20_polargrid_test.nc','SWUPB'),[2 1 3]);
 
 for i=1:361
-   load(['/Volumes/ExtremePro/WANG_SSD/modified_IST_satellite_clearsky/IST_satellite_',datestring(x0(i),:),'.mat'])
-   
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestring(x0(i),:),'.mat'])
+   %changed to gauss resampling method
+
    SWDNB_ERA5_20=SWDNB_20(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
    SWDNB_ERA5_20(isnan(data_satellite))=nan;
    SWDNB_ERA5_20(SWDNB_ERA5_20>10)=nan;
@@ -82,7 +83,7 @@ SWDNB_15=permute(ncread('/Volumes/ExtremePro/Extreme_SSD/GRDFLX_test/WRF_SIT_15_
 SWUPB_15=permute(ncread('/Volumes/ExtremePro/Extreme_SSD/GRDFLX_test/WRF_SIT_15_nosnow/SEB_15_polargrid_test.nc','SWUPB'),[2 1 3]);
 
 for i=1:361
-   load(['/Volumes/ExtremePro/WANG_SSD/modified_IST_satellite_clearsky/IST_satellite_',datestring(x0(i),:),'.mat'])
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestring(x0(i),:),'.mat'])
    
    SWDNB_ERA5_15=SWDNB_15(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
    SWDNB_ERA5_15(isnan(data_satellite))=nan;
@@ -142,6 +143,8 @@ clear HFX_15 HFX_20 LH_15 LH_20 LWDNB_15 LWDNB_20 LWUPB_15 LWUPB_20 SWDNB_15 SWD
     QuasiDiff_domain=sum((R(:,:,2)-R(:,:,1)).*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(R(:,:,2)-R(:,:,1))),'all','omitnan');
 
     % 33.5190 for JRA55, 47.6473 for ERA5, 14.1283 for diff
+    % this should be changed because resampling method changed to Gauss
+
 
 %%
 
@@ -216,8 +219,8 @@ load('lat25.mat')
 
 
 for i=1:length(x0)
-   load(['/Volumes/ExtremePro/WANG_SSD/modified_IST_satellite_clearsky/IST_satellite_',datestring(x0(i),:),'.mat'])
-   
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestring(x0(i),:),'.mat'])
+   %changed to gauss resampling method 
    % 
    TSK_15_nosnow_frac_r=TSK_15_nosnow_frac(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
    TSK_15_nosnow_frac_r(isnan(data_satellite))=nan;
@@ -235,8 +238,9 @@ end
 
 %ERA5 and JRA55 in 2018
 for i=1:length(x0)
-   load(['/Volumes/ExtremePro/WANG_SSD/modified_IST_satellite_clearsky/IST_satellite_',datestring(x0(i),:),'.mat'])
-   
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestring(x0(i),:),'.mat'])
+   %changed to gauss resampling method
+
    load(['/Volumes/ExtremePro/WANG_SSD/regridded_reanalysis_2002_2020/ERA5/ERA5_regrid',datestring(x0(i),:),'.mat'])
    data_ERA5=permute(data,[2 3 1]);
    data_ERA5(data_ERA5==0)=nan;
@@ -268,6 +272,7 @@ end
     ERA5_domainIST=sum(ERA5_ME{1}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(ERA5_ME{1})),'all','omitnan');
     
     % 0.8099 for JRA55, 5.9464 for ERA5, 5.1173 for QuasiERA5, 2.8996 for QuasiJRA55
+    % this should be changed because resampling method changed to Gauss
 
 %%
 

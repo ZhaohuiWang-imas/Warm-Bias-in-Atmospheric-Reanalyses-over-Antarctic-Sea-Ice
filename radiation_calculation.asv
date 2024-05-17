@@ -353,7 +353,6 @@ JRA55_shf_season{j}=mean(data_shtfl_JRA55(:,:,X{j}),3,'omitnan');
 JRA55_lhf_season{j}=mean(data_lhtfl_JRA55(:,:,X{j}),3,'omitnan');
 end
 
-cd /Users/zhaohuiw/Documents/GitHub/Warm-Bias-in-Atmospheric-Reanalyses-over-Antarctic-Sea-Ice
 save ERA5_radiation_clearsky ERA5* data*ERA5 -v7.3
 save JRA55_radiation_clearsky JRA55* data*JRA55 -v7.3
 

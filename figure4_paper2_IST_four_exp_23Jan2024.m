@@ -32,8 +32,8 @@ load('lat25.mat')
 
 % IST difference between 4 experiment
 for i=1:length(x0)
-   load(['/Volumes/ExtremePro/WANG_SSD/modified_IST_satellite_clearsky/IST_satellite_',datestring(x0(i),:),'.mat'])
-   
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestring(x0(i),:),'.mat'])
+   %changed to the gauss resampling method
    % 
    TSK_15_nosnow_frac_r=TSK_15_nosnow_frac(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
    TSK_15_nosnow_frac_r(isnan(data_satellite))=nan;
@@ -69,6 +69,7 @@ end
     SNOW_domainIST=sum(data_TSK_5cmsnow_15_frac_season{1}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(data_TSK_5cmsnow_15_frac_season{1})),'all','omitnan');
     
     % 4.7144 for EXP-SIT, 4.4643 for EXP-Snow, 5.1173 for QuasiERA5, 2.8996 for QuasiJRA55
+    % This has been changed because resampling method changed to Gauss
 
 
 
@@ -124,7 +125,7 @@ m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbo
 m_pcolor(lons,lats,data_TSK_15_nosnow_frac_season{1});
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-15 15])
+caxis([-12 12])
 cmocean('balance',600);
 title(title_name{1},'FontSize',18,'Interpreter','none')
 m_text(-43,-45,text_all{1},'fontsize',22,'fontname','bold')
@@ -137,7 +138,7 @@ m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbo
 m_pcolor(lons,lats,data_TSK_20_nosnow_binary_season{1});
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-15 15])
+caxis([-12 12])
 cmocean('balance',600);
 title(title_name{2},'FontSize',18,'Interpreter','none')
 m_text(-43,-45,text_all{2},'fontsize',22,'fontname','bold')
@@ -150,7 +151,7 @@ m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbo
 m_pcolor(lons,lats,data_TSK_nosnow_2m_frac_season{1});
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-15 15])
+caxis([-12 12])
 cmocean('balance',600);
 title(title_name{3},'FontSize',18,'Interpreter','none')
 m_text(-43,-45,text_all{3},'fontsize',22,'fontname','bold')
@@ -163,7 +164,7 @@ m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbo
 m_pcolor(lons,lats,data_TSK_5cmsnow_15_frac_season{1});
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-15 15])
+caxis([-12 12])
 cmocean('balance',600);
 title(title_name{4},'FontSize',18,'Interpreter','none')
 m_text(-43,-45,text_all{4},'fontsize',22,'fontname','bold')

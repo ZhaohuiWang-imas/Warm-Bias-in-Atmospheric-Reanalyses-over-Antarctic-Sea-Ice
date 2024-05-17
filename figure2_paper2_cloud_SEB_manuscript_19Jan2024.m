@@ -62,6 +62,14 @@ set(h,'fontsize',18,'tickdir','out','linewidth',1)
 h.Label.String = 'Cloud fraction';
 set(h,'position',[.925 .25 .01 .5])
 
+figure
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+m_contourf(lons,lats,JRA3Q_ME_masked{1}, 0:0.05:1,'LineStyle','None');
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([0 1])
+colortable =textread('WhBlGrYeRe.txt');
+colormap(colortable(1:5:end,:));
 
 
 %% cloud correlation with CERES
@@ -181,7 +189,8 @@ load('lon25.mat')
 load('/Volumes/ExtremePro/WANG_SSD/programming_files_stage2/modis/nsidc_grid_tools/area_nasa.mat')
 area_nasa=area_nasa';
 
-cd /Volumes/ExtremePro/Extreme_SSD/radiation_output
+cd /Users/zhaohuiw/Documents/GitHub/Warm-Bias-in-Atmospheric-Reanalyses-over-Antarctic-Sea-Ice
+% changed to new resampling method
 
 load('JRA55_radiation.mat', 'JRA55_dlwrf_season')
 load('JRA55_radiation.mat', 'JRA55_dswrf_season')
@@ -268,7 +277,8 @@ end
 
 
 %% for ERA5
-cd /Volumes/ExtremePro/Extreme_SSD/radiation_output
+cd /Users/zhaohuiw/Documents/GitHub/Warm-Bias-in-Atmospheric-Reanalyses-over-Antarctic-Sea-Ice
+% changed to new resampling method
 
 load('ERA5_radiation.mat', 'ERA5_dlwrf_season')
 load('ERA5_radiation.mat', 'ERA5_dswrf_season')

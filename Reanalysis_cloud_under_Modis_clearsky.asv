@@ -100,23 +100,27 @@ X={x0,x1,x2,x3,x4};
 
 for i=1:length(x0)
    load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestr(x0(i),:),'.mat'])
+   
+   % ERA5
+   % add cloud mask here
+   cloud_ERA5=ncread('/Volumes/ExtremePro/WANG_SSD/ERA5_cloud/ERA5_cloudcover_all_polargrid.nc','var164',[1 1 8017+24*(i-1)],[Inf Inf 24]);
+   cloud_ERA5=permute(cloud_ERA5,[2 1 3]);
+   cloud_ERA5(isnan(data_satellite))=nan;
+   data_cloud_ERA5_masked(:,:,i)=mean(cloud_ERA5,3,'omitnan'); 
+  
    % add cloud mask here
    cloud_JRA3Q=ncread('/Volumes/ExtremePro/JRA3Q/JRA3Q_TCC_polargrid.nc','tcdc-tcl-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
-   cloud_JRA3Q=permute(cloud_JRA3Q,[2 1 3]);
-   cloud_JRA3Q(isnan(data_satellite))=nan;
-   data_cloud_JRA3Q_masked(:,:,i)=mean(cloud_JRA3Q,3,'omitnan'); 
+   JRA3Q_skt(cloud_JRA3Q>20)=nan;
+   cloud_ERA5(isnan(data_satellite))=nan;
+   
+   % JRA55
+   % add cloud mask here
+   cloud_JRA55=ncread('/Volumes/ExtremePro/WANG_SSD/JRA55_cloud/JRA55_cloud_merge_polargrid.nc','TCDC_GDS4_ISBY',[1 1 2673+8*(i-1)],[Inf Inf 8]);
+   cloud_JRA55=permute(cloud_JRA55,[2 1 3]);
+   for fr=1:8
+   data_satellite_JRA55(:,:,fr)=mean(data_satellite(:,:,fr*3-2:fr*3),3,'omitnan');
+   end
+   cloud_JRA55(isnan(data_satellite_JRA55))=nan;
+   data_cloud_JRA55_masked(:,:,i)=mean(cloud_JRA55,3,'omitnan'); 
    i
 end
-
-
-%seasonal cloud (masked with model)
-for j=1:5
-JRA3Q_ME_season=mean(data_cloud_JRA3Q_masked(:,:,X{j}),3,'omitnan');
-JRA3Q_ME_masked{j}=JRA3Q_ME_season./100;
-end
-
-cd /Users/zhaohuiw/Documents/GitHub/Warm-Bias-in-Atmospheric-Reanalyses-over-Antarctic-Sea-Ice
-save cloud_fra_clear_sky_JRA3Q.mat *_ME_masked
-
-
-
