@@ -234,28 +234,11 @@ set(h,'position',[.87 .20 .01 .57])
  load('/Volumes/ExtremePro/WANG_SSD/programming_files_stage2/modis/nsidc_grid_tools/area_nasa.mat')
     area_nasa=area_nasa';
     ERA5_ME_domainIST_MODIS=sum(ERA5_ME{1}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(ERA5_ME{1})),'all','omitnan');
-    ERA5_ME_domainIST_VIIRS=sum(ERA5_ME_VIIRS{1}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(ERA5_ME_VIIRS{1})),'all','omitnan');
-
-    JRA55_ME_domainIST_MODIS=sum(JRA55_ME{1}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(JRA55_ME{1})),'all','omitnan');
-    JRA55_ME_domainIST_VIIRS=sum(JRA55_ME_VIIRS{1}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(JRA55_ME_VIIRS{1})),'all','omitnan');
+    ERA5_ME_domainIST_MODIS=sum(ERA5_ME{1}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(ERA5_ME_VIIRS{1})),'all','omitnan');
 
 
-% ERA5_ME_domainIST_MODIS =
-% 
-%     4.8777
-% 
-% 
-% ERA5_ME_domainIST_VIIRS =
-% 
-%     4.9256
-% 
-% 
-% JRA55_ME_domainIST_MODIS =
-% 
-%    -0.4073
-% 
-% 
-% JRA55_ME_domainIST_VIIRS =
-% 
-%    -0.6144
+
+
+
+
 
