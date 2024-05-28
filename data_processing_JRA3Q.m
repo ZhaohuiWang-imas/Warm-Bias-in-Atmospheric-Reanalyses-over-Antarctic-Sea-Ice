@@ -18,8 +18,8 @@ X={x0,x1,x2,x3,x4};
 for i=1:length(x0)
     
 load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestr(x0(i),:),'.mat'])
-JRA3Q_LWD_per_day=ncread('/Volumes/ExtremePro/JRA3Q/JRA3Q_LWD_polargrid.nc','dlwrf1have-sfc-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
-JRA3Q_LWU_per_day=ncread('/Volumes/ExtremePro/JRA3Q/JRA3Q_LWU_polargrid.nc','ulwrf1have-sfc-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
+JRA3Q_LWD_per_day=ncread('/Volumes/PostDoc_drive/JRA3Q/JRA3Q_LWD_polargrid.nc','dlwrf1have-sfc-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
+JRA3Q_LWU_per_day=ncread('/Volumes/PostDoc_drive/JRA3Q/JRA3Q_LWU_polargrid.nc','ulwrf1have-sfc-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
 JRA3Q_skt=nthroot((JRA3Q_LWU_per_day-(1-0.99).*JRA3Q_LWD_per_day)./(0.99.*5.67.*(10^(-8))),4);
 JRA3Q_skt(JRA3Q_skt==0)=nan;
 data_JRA3Q=permute(JRA3Q_skt,[2 1 3]);
@@ -52,16 +52,16 @@ set(h,'position',[.87 .20 .01 .57])
 %with TCF cloud mask
 for i=1:length(x0)
 load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestr(x0(i),:),'.mat'])
-JRA3Q_LWD_per_day=ncread('/Volumes/ExtremePro/JRA3Q/JRA3Q_LWD_polargrid.nc','dlwrf1have-sfc-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
-JRA3Q_LWU_per_day=ncread('/Volumes/ExtremePro/JRA3Q/JRA3Q_LWU_polargrid.nc','ulwrf1have-sfc-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
+JRA3Q_LWD_per_day=ncread('/Volumes/PostDoc_drive/JRA3Q/JRA3Q_LWD_polargrid.nc','dlwrf1have-sfc-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
+JRA3Q_LWU_per_day=ncread('/Volumes/PostDoc_drive/JRA3Q/JRA3Q_LWU_polargrid.nc','ulwrf1have-sfc-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
 JRA3Q_skt=nthroot((JRA3Q_LWU_per_day-(1-0.99).*JRA3Q_LWD_per_day)./(0.99.*5.67.*(10^(-8))),4);
 JRA3Q_skt(JRA3Q_skt==0)=nan;
 % add cloud mask here
-   cloud_JRA3Q=ncread('/Volumes/ExtremePro/JRA3Q/JRA3Q_TCC_polargrid.nc','tcdc-tcl-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
+   cloud_JRA3Q=ncread('/Volumes/PostDoc_drive/JRA3Q/JRA3Q_TCC_polargrid.nc','tcdc-tcl-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
    JRA3Q_skt(cloud_JRA3Q>20)=nan;
 data_JRA3Q=permute(JRA3Q_skt,[2 1 3]);
 data_ME_JRA3Q(:,:,i)=mean(data_JRA3Q-data_satellite,3,'omitnan'); 
-
+i
 end
 
 
