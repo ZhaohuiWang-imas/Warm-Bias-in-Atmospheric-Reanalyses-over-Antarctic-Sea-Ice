@@ -287,14 +287,19 @@ m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tick
 m_gshhs_l('color','k');
 caxis([-10 10])
 cmocean('balance',20)
-title(title_name{j},'FontSize',18)
+title([title_name{j},'- nosnow 2m bin'],'FontSize',18)
 m_text(-43,-45,text_all{j},'fontsize',22,'fontname','bold')
 end
 h=colorbar('eastoutside');
 set(h,'fontsize',18,'tickdir','out','linewidth',1)
 %set(get(h,'Title'),'string','Cloud fraction')
-h.Label.String = 'Seasonal mean cloud fraction difference';
+h.Label.String = 'mean downward longwave radiation difference';
 set(h,'position',[.925 .25 .01 .5])
+
+
+
+
+
 
 %% LWUPB
 
@@ -348,13 +353,13 @@ m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tick
 m_gshhs_l('color','k');
 caxis([-10 10])
 cmocean('balance',20)
-title(title_name{j},'FontSize',18)
 m_text(-43,-45,text_all{j},'fontsize',22,'fontname','bold')
+title([title_name{j},'- nosnow 2m bin'],'FontSize',18)
 end
 h=colorbar('eastoutside');
 set(h,'fontsize',18,'tickdir','out','linewidth',1)
 %set(get(h,'Title'),'string','Cloud fraction')
-h.Label.String = 'Seasonal mean cloud fraction difference';
+h.Label.String = 'mean upward longwave radiation difference';
 set(h,'position',[.925 .25 .01 .5])
 
 
@@ -411,13 +416,13 @@ m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tick
 m_gshhs_l('color','k');
 caxis([-10 10])
 cmocean('balance',20)
-title(title_name{j},'FontSize',18)
+title([title_name{j},'- nosnow 2m bin'],'FontSize',18)
 m_text(-43,-45,text_all{j},'fontsize',22,'fontname','bold')
 end
 h=colorbar('eastoutside');
 set(h,'fontsize',18,'tickdir','out','linewidth',1)
 %set(get(h,'Title'),'string','Cloud fraction')
-h.Label.String = 'Seasonal mean cloud fraction difference';
+h.Label.String = 'mean sensible heat flux difference';
 set(h,'position',[.925 .25 .01 .5])
 
 
