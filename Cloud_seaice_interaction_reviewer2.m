@@ -231,11 +231,14 @@ set(h,'position',[.72 .23 .01 .5])
 
 %% we have found cloud fraction have difference, how these cloud difference influence 
 
-
-%% LWDNB
 cd /Users/zhaohuiw/Desktop/Work/programming_files_stage2/modis/nsidc_grid_tools
 load('lon25.mat')
 load('lat25.mat')
+
+
+%% LWDNB
+
+
 % extract the LWDNB
 data=ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_nosnow_2m_bin_polargrid.nc','LWDNB');
 LWDNB_nosnow_2m_bin=permute(data,[2 1 3]);
@@ -246,19 +249,25 @@ LWDNB_nosnow_15m_fra=permute(data,[2 1 3]);
 data=ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_SIT_15m_SNOW_5_frac_polargrid.nc','LWDNB');
 LWDNB_SIT_15m_SNOW_5_frac=permute(data,[2 1 3]);
 
-
 %Daily mean of LWDNB
 for i=1:length(x0)
+
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestring(x0(i),:),'.mat'])
+
    LWDNB_nosnow_2m_bin_per_day=LWDNB_nosnow_2m_bin(:,:,(i-1)*24+1:i*24);
+   LWDNB_nosnow_2m_bin_per_day(isnan(data_satellite))=nan;
    LWDNB_nosnow_2m_bin_daily(:,:,i)=mean((LWDNB_nosnow_2m_bin_per_day),3,'omitnan'); 
 
    LWDNB_nosnow_2m_fra_per_day=LWDNB_nosnow_2m_fra(:,:,(i-1)*24+1:i*24);
+   LWDNB_nosnow_2m_fra_per_day(isnan(data_satellite))=nan;
    LWDNB_nosnow_2m_fra_daily(:,:,i)=mean((LWDNB_nosnow_2m_fra_per_day),3,'omitnan'); 
 
    LWDNB_nosnow_15m_fra_per_day=LWDNB_nosnow_15m_fra(:,:,(i-1)*24+1:i*24);
+   LWDNB_nosnow_15m_fra_per_day(isnan(data_satellite))=nan;
    LWDNB_nosnow_15m_fra_daily(:,:,i)=mean((LWDNB_nosnow_15m_fra_per_day),3,'omitnan'); 
 
    LWDNB_SIT_15m_SNOW_5_frac_per_day=LWDNB_SIT_15m_SNOW_5_frac(:,:,(i-1)*24+1:i*24);
+   LWDNB_SIT_15m_SNOW_5_frac_per_day(isnan(data_satellite))=nan;
    LWDNB_SIT_15m_SNOW_5_fra_daily(:,:,i)=mean((LWDNB_SIT_15m_SNOW_5_frac_per_day),3,'omitnan'); 
 end
 
@@ -316,16 +325,22 @@ LWUPB_SIT_15m_SNOW_5_frac=permute(data,[2 1 3]);
 
 %Daily mean of LWUPB
 for i=1:length(x0)
+    load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestring(x0(i),:),'.mat'])
+
    LWUPB_nosnow_2m_bin_per_day=LWUPB_nosnow_2m_bin(:,:,(i-1)*24+1:i*24);
+   LWUPB_nosnow_2m_bin_per_day(isnan(data_satellite))=nan;
    LWUPB_nosnow_2m_bin_daily(:,:,i)=mean((LWUPB_nosnow_2m_bin_per_day),3,'omitnan'); 
 
    LWUPB_nosnow_2m_fra_per_day=LWUPB_nosnow_2m_fra(:,:,(i-1)*24+1:i*24);
+   LWUPB_nosnow_2m_fra_per_day(isnan(data_satellite))=nan;
    LWUPB_nosnow_2m_fra_daily(:,:,i)=mean((LWUPB_nosnow_2m_fra_per_day),3,'omitnan'); 
 
    LWUPB_nosnow_15m_fra_per_day=LWUPB_nosnow_15m_fra(:,:,(i-1)*24+1:i*24);
+   LWUPB_nosnow_15m_fra_per_day(isnan(data_satellite))=nan;
    LWUPB_nosnow_15m_fra_daily(:,:,i)=mean((LWUPB_nosnow_15m_fra_per_day),3,'omitnan'); 
 
    LWUPB_SIT_15m_SNOW_5_frac_per_day=LWUPB_SIT_15m_SNOW_5_frac(:,:,(i-1)*24+1:i*24);
+   LWUPB_SIT_15m_SNOW_5_frac_per_day(isnan(data_satellite))=nan;
    LWUPB_SIT_15m_SNOW_5_fra_daily(:,:,i)=mean((LWUPB_SIT_15m_SNOW_5_frac_per_day),3,'omitnan'); 
 end
 
@@ -378,16 +393,22 @@ HFX_SIT_15m_SNOW_5_frac=permute(data,[2 1 3]);
 
 %Daily mean of LWDNB
 for i=1:length(x0)
+    load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestring(x0(i),:),'.mat'])
+
    HFX_nosnow_2m_bin_per_day=HFX_nosnow_2m_bin(:,:,(i-1)*24+1:i*24);
+    HFX_nosnow_2m_bin_per_day(isnan(data_satellite))=nan;
    HFX_nosnow_2m_bin_daily(:,:,i)=mean((HFX_nosnow_2m_bin_per_day),3,'omitnan'); 
 
    HFX_nosnow_2m_fra_per_day=HFX_nosnow_2m_fra(:,:,(i-1)*24+1:i*24);
+    HFX_nosnow_2m_fra_per_day(isnan(data_satellite))=nan;
    HFX_nosnow_2m_fra_daily(:,:,i)=mean((HFX_nosnow_2m_fra_per_day),3,'omitnan'); 
 
    HFX_nosnow_15m_fra_per_day=HFX_nosnow_15m_fra(:,:,(i-1)*24+1:i*24);
+    HFX_nosnow_15m_fra_per_day(isnan(data_satellite))=nan;
    HFX_nosnow_15m_fra_daily(:,:,i)=mean((HFX_nosnow_15m_fra_per_day),3,'omitnan'); 
 
    HFX_SIT_15m_SNOW_5_frac_per_day=HFX_SIT_15m_SNOW_5_frac(:,:,(i-1)*24+1:i*24);
+    HFX_SIT_15m_SNOW_5_frac_per_day(isnan(data_satellite))=nan;
    HFX_SIT_15m_SNOW_5_fra_daily(:,:,i)=mean((HFX_SIT_15m_SNOW_5_frac_per_day),3,'omitnan'); 
 end
 
@@ -442,16 +463,22 @@ LH_SIT_15m_SNOW_5_frac=permute(data,[2 1 3]);
 
 %Daily mean of LWDNB
 for i=1:length(x0)
-   LH_nosnow_2m_bin_per_day=LH_nosnow_2m_bin(:,:,(i-1)*24+1:i*24);
+    load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestring(x0(i),:),'.mat'])
+   
+    LH_nosnow_2m_bin_per_day=LH_nosnow_2m_bin(:,:,(i-1)*24+1:i*24);
+    LH_nosnow_2m_bin_per_day(isnan(data_satellite))=nan;
    LH_nosnow_2m_bin_daily(:,:,i)=mean((LH_nosnow_2m_bin_per_day),3,'omitnan'); 
 
    LH_nosnow_2m_fra_per_day=LH_nosnow_2m_fra(:,:,(i-1)*24+1:i*24);
+    LH_nosnow_2m_fra_per_day(isnan(data_satellite))=nan;
    LH_nosnow_2m_fra_daily(:,:,i)=mean((LH_nosnow_2m_fra_per_day),3,'omitnan'); 
 
    LH_nosnow_15m_fra_per_day=LH_nosnow_15m_fra(:,:,(i-1)*24+1:i*24);
+    LH_nosnow_15m_fra_per_day(isnan(data_satellite))=nan;
    LH_nosnow_15m_fra_daily(:,:,i)=mean((LH_nosnow_15m_fra_per_day),3,'omitnan'); 
 
    LH_SIT_15m_SNOW_5_frac_per_day=LH_SIT_15m_SNOW_5_frac(:,:,(i-1)*24+1:i*24);
+    LH_SIT_15m_SNOW_5_frac_per_day(isnan(data_satellite))=nan;
    LH_SIT_15m_SNOW_5_fra_daily(:,:,i)=mean((LH_SIT_15m_SNOW_5_frac_per_day),3,'omitnan'); 
 end
 
@@ -508,16 +535,23 @@ SWDNB_SIT_15m_SNOW_5_frac=permute(data,[2 1 3]);
 
 %Daily mean of LWDNB
 for i=1:length(x0)
+
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestring(x0(i),:),'.mat'])
+
    SWDNB_nosnow_2m_bin_per_day=SWDNB_nosnow_2m_bin(:,:,(i-1)*24+1:i*24);
+   SWDNB_nosnow_2m_bin_per_day(isnan(data_satellite))=nan;
    SWDNB_nosnow_2m_bin_daily(:,:,i)=mean((SWDNB_nosnow_2m_bin_per_day),3,'omitnan'); 
 
    SWDNB_nosnow_2m_fra_per_day=SWDNB_nosnow_2m_fra(:,:,(i-1)*24+1:i*24);
+   SWDNB_nosnow_2m_fra_per_day(isnan(data_satellite))=nan;
    SWDNB_nosnow_2m_fra_daily(:,:,i)=mean((SWDNB_nosnow_2m_fra_per_day),3,'omitnan'); 
 
    SWDNB_nosnow_15m_fra_per_day=SWDNB_nosnow_15m_fra(:,:,(i-1)*24+1:i*24);
+   SWDNB_nosnow_15m_fra_per_day(isnan(data_satellite))=nan;
    SWDNB_nosnow_15m_fra_daily(:,:,i)=mean((SWDNB_nosnow_15m_fra_per_day),3,'omitnan'); 
 
    SWDNB_SIT_15m_SNOW_5_frac_per_day=SWDNB_SIT_15m_SNOW_5_frac(:,:,(i-1)*24+1:i*24);
+   SWDNB_SIT_15m_SNOW_5_frac_per_day(isnan(data_satellite))=nan;
    SWDNB_SIT_15m_SNOW_5_fra_daily(:,:,i)=mean((SWDNB_SIT_15m_SNOW_5_frac_per_day),3,'omitnan'); 
 end
 
@@ -541,10 +575,10 @@ for j=1:4
 axes(ha(j));
 m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
 % number below used to change the season and/or annual mean
-m_contourf(lons,lats,eval(['SWDNB_',data_name{j},'_season{5}'])-SWDNB_nosnow_2m_bin_season{5}, -50:1:50,'LineStyle','None');
+m_contourf(lons,lats,eval(['SWDNB_',data_name{j},'_season{1}'])-SWDNB_nosnow_2m_bin_season{4}, -50:1:50,'LineStyle','None');
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-30 30])
+caxis([-10 10])
 cmocean('balance',20)
 title([title_name{j},'- nosnow 2m bin'],'FontSize',18)
 m_text(-43,-45,text_all{j},'fontsize',22,'fontname','bold')
@@ -552,7 +586,7 @@ end
 h=colorbar('eastoutside');
 set(h,'fontsize',18,'tickdir','out','linewidth',1)
 %set(get(h,'Title'),'string','Cloud fraction')
-h.Label.String = 'mean downward longwave radiation difference';
+h.Label.String = 'mean downward shortwave radiation difference';
 set(h,'position',[.925 .25 .01 .5])
 
 
@@ -571,18 +605,24 @@ data=ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_SIT_15m_SNOW_5_frac_po
 SWUPB_SIT_15m_SNOW_5_frac=permute(data,[2 1 3]);
 
 
-%Daily mean of LWDNB
+%Daily mean of SWUPB
 for i=1:length(x0)
+    load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestring(x0(i),:),'.mat'])
+
    SWUPB_nosnow_2m_bin_per_day=SWUPB_nosnow_2m_bin(:,:,(i-1)*24+1:i*24);
+   SWUPB_nosnow_2m_bin_per_day(isnan(data_satellite))=nan;
    SWUPB_nosnow_2m_bin_daily(:,:,i)=mean((SWUPB_nosnow_2m_bin_per_day),3,'omitnan'); 
 
    SWUPB_nosnow_2m_fra_per_day=SWUPB_nosnow_2m_fra(:,:,(i-1)*24+1:i*24);
+   SWUPB_nosnow_2m_fra_per_day(isnan(data_satellite))=nan;
    SWUPB_nosnow_2m_fra_daily(:,:,i)=mean((SWUPB_nosnow_2m_fra_per_day),3,'omitnan'); 
 
    SWUPB_nosnow_15m_fra_per_day=SWUPB_nosnow_15m_fra(:,:,(i-1)*24+1:i*24);
+   SWUPB_nosnow_15m_fra_per_day(isnan(data_satellite))=nan;
    SWUPB_nosnow_15m_fra_daily(:,:,i)=mean((SWUPB_nosnow_15m_fra_per_day),3,'omitnan'); 
 
    SWUPB_SIT_15m_SNOW_5_frac_per_day=SWUPB_SIT_15m_SNOW_5_frac(:,:,(i-1)*24+1:i*24);
+   SWUPB_SIT_15m_SNOW_5_frac_per_day(isnan(data_satellite))=nan;
    SWUPB_SIT_15m_SNOW_5_fra_daily(:,:,i)=mean((SWUPB_SIT_15m_SNOW_5_frac_per_day),3,'omitnan'); 
 end
 
@@ -606,10 +646,10 @@ for j=1:4
 axes(ha(j));
 m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
 % number below used to change the season and/or annual mean
-m_contourf(lons,lats,eval(['SWUPB_',data_name{j},'_season{5}'])-SWUPB_nosnow_2m_bin_season{5}, -50:1:50,'LineStyle','None');
+m_contourf(lons,lats,eval(['SWUPB_',data_name{j},'_season{1}'])-SWUPB_nosnow_2m_bin_season{4}, -50:1:50,'LineStyle','None');
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-30 30])
+caxis([-10 10])
 cmocean('balance',20)
 title([title_name{j},'- nosnow 2m bin'],'FontSize',18)
 m_text(-43,-45,text_all{j},'fontsize',22,'fontname','bold')
@@ -617,5 +657,5 @@ end
 h=colorbar('eastoutside');
 set(h,'fontsize',18,'tickdir','out','linewidth',1)
 %set(get(h,'Title'),'string','Cloud fraction')
-h.Label.String = 'mean upward longwave radiation difference';
+h.Label.String = 'mean upward shortwave radiation difference';
 set(h,'position',[.925 .25 .01 .5])
