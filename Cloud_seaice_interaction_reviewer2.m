@@ -488,3 +488,134 @@ set(h,'fontsize',18,'tickdir','out','linewidth',1)
 h.Label.String = 'Seasonal mean cloud fraction difference';
 set(h,'position',[.925 .25 .01 .5])
 
+
+
+
+%% SWDNB
+cd /Users/zhaohuiw/Desktop/Work/programming_files_stage2/modis/nsidc_grid_tools
+load('lon25.mat')
+load('lat25.mat')
+% extract the LWDNB
+data=ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_nosnow_2m_bin_polargrid.nc','SWDNB');
+SWDNB_nosnow_2m_bin=permute(data,[2 1 3]);
+data=ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_nosnow_2m_fra_polargrid.nc','SWDNB');
+SWDNB_nosnow_2m_fra=permute(data,[2 1 3]);
+data=ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_nosnow_15m_frac_polargrid.nc','SWDNB');
+SWDNB_nosnow_15m_fra=permute(data,[2 1 3]);
+data=ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_SIT_15m_SNOW_5_frac_polargrid.nc','SWDNB');
+SWDNB_SIT_15m_SNOW_5_frac=permute(data,[2 1 3]);
+
+
+%Daily mean of LWDNB
+for i=1:length(x0)
+   SWDNB_nosnow_2m_bin_per_day=SWDNB_nosnow_2m_bin(:,:,(i-1)*24+1:i*24);
+   SWDNB_nosnow_2m_bin_daily(:,:,i)=mean((SWDNB_nosnow_2m_bin_per_day),3,'omitnan'); 
+
+   SWDNB_nosnow_2m_fra_per_day=SWDNB_nosnow_2m_fra(:,:,(i-1)*24+1:i*24);
+   SWDNB_nosnow_2m_fra_daily(:,:,i)=mean((SWDNB_nosnow_2m_fra_per_day),3,'omitnan'); 
+
+   SWDNB_nosnow_15m_fra_per_day=SWDNB_nosnow_15m_fra(:,:,(i-1)*24+1:i*24);
+   SWDNB_nosnow_15m_fra_daily(:,:,i)=mean((SWDNB_nosnow_15m_fra_per_day),3,'omitnan'); 
+
+   SWDNB_SIT_15m_SNOW_5_frac_per_day=SWDNB_SIT_15m_SNOW_5_frac(:,:,(i-1)*24+1:i*24);
+   SWDNB_SIT_15m_SNOW_5_fra_daily(:,:,i)=mean((SWDNB_SIT_15m_SNOW_5_frac_per_day),3,'omitnan'); 
+end
+
+
+for j=1:5
+SWDNB_nosnow_2m_bin_season{j}=mean(SWDNB_nosnow_2m_bin_daily(:,:,X{j}),3,'omitnan');
+SWDNB_nosnow_2m_fra_season{j}=mean(SWDNB_nosnow_2m_fra_daily(:,:,X{j}),3,'omitnan');
+SWDNB_nosnow_15m_fra_season{j}=mean(SWDNB_nosnow_15m_fra_daily(:,:,X{j}),3,'omitnan');
+SWDNB_SIT_15m_SNOW_5_fra_season{j}=mean(SWDNB_SIT_15m_SNOW_5_fra_daily(:,:,X{j}),3,'omitnan');
+end
+
+
+%Annual seasonal mean downward shortwave radiation difference between each experiment and nosnow_2m_bin
+
+text_all={'(a)','(b)','(c)','(d)','(e)','(f)','(g)','(h)'};
+data_name={'nosnow_2m_bin','nosnow_2m_fra','nosnow_15m_fra','SIT_15m_SNOW_5_fra'};
+title_name={'nosnow 2m bin','nosnow 2m fra','nosnow 1.5m fra','SIT 1.5m SNOW 5cm fra'};
+figure
+[ha, pos] = tight_subplot(2,2,[.01 .015],[.01 .04],[.03 .1]);
+for j=1:4
+axes(ha(j));
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+% number below used to change the season and/or annual mean
+m_contourf(lons,lats,eval(['SWDNB_',data_name{j},'_season{5}'])-SWDNB_nosnow_2m_bin_season{5}, -50:1:50,'LineStyle','None');
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([-30 30])
+cmocean('balance',20)
+title([title_name{j},'- nosnow 2m bin'],'FontSize',18)
+m_text(-43,-45,text_all{j},'fontsize',22,'fontname','bold')
+end
+h=colorbar('eastoutside');
+set(h,'fontsize',18,'tickdir','out','linewidth',1)
+%set(get(h,'Title'),'string','Cloud fraction')
+h.Label.String = 'mean downward longwave radiation difference';
+set(h,'position',[.925 .25 .01 .5])
+
+
+%% SWUPB
+cd /Users/zhaohuiw/Desktop/Work/programming_files_stage2/modis/nsidc_grid_tools
+load('lon25.mat')
+load('lat25.mat')
+% extract the SWUPB
+data=ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_nosnow_2m_bin_polargrid.nc','SWUPB');
+SWUPB_nosnow_2m_bin=permute(data,[2 1 3]);
+data=ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_nosnow_2m_fra_polargrid.nc','SWUPB');
+SWUPB_nosnow_2m_fra=permute(data,[2 1 3]);
+data=ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_nosnow_15m_frac_polargrid.nc','SWUPB');
+SWUPB_nosnow_15m_fra=permute(data,[2 1 3]);
+data=ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_SIT_15m_SNOW_5_frac_polargrid.nc','SWUPB');
+SWUPB_SIT_15m_SNOW_5_frac=permute(data,[2 1 3]);
+
+
+%Daily mean of LWDNB
+for i=1:length(x0)
+   SWUPB_nosnow_2m_bin_per_day=SWUPB_nosnow_2m_bin(:,:,(i-1)*24+1:i*24);
+   SWUPB_nosnow_2m_bin_daily(:,:,i)=mean((SWUPB_nosnow_2m_bin_per_day),3,'omitnan'); 
+
+   SWUPB_nosnow_2m_fra_per_day=SWUPB_nosnow_2m_fra(:,:,(i-1)*24+1:i*24);
+   SWUPB_nosnow_2m_fra_daily(:,:,i)=mean((SWUPB_nosnow_2m_fra_per_day),3,'omitnan'); 
+
+   SWUPB_nosnow_15m_fra_per_day=SWUPB_nosnow_15m_fra(:,:,(i-1)*24+1:i*24);
+   SWUPB_nosnow_15m_fra_daily(:,:,i)=mean((SWUPB_nosnow_15m_fra_per_day),3,'omitnan'); 
+
+   SWUPB_SIT_15m_SNOW_5_frac_per_day=SWUPB_SIT_15m_SNOW_5_frac(:,:,(i-1)*24+1:i*24);
+   SWUPB_SIT_15m_SNOW_5_fra_daily(:,:,i)=mean((SWUPB_SIT_15m_SNOW_5_frac_per_day),3,'omitnan'); 
+end
+
+
+for j=1:5
+SWUPB_nosnow_2m_bin_season{j}=mean(SWUPB_nosnow_2m_bin_daily(:,:,X{j}),3,'omitnan');
+SWUPB_nosnow_2m_fra_season{j}=mean(SWUPB_nosnow_2m_fra_daily(:,:,X{j}),3,'omitnan');
+SWUPB_nosnow_15m_fra_season{j}=mean(SWUPB_nosnow_15m_fra_daily(:,:,X{j}),3,'omitnan');
+SWUPB_SIT_15m_SNOW_5_fra_season{j}=mean(SWUPB_SIT_15m_SNOW_5_fra_daily(:,:,X{j}),3,'omitnan');
+end
+
+
+%Annual seasonal mean upwatd shortwave radiation difference between each experiment and nosnow_2m_bin
+
+text_all={'(a)','(b)','(c)','(d)','(e)','(f)','(g)','(h)'};
+data_name={'nosnow_2m_bin','nosnow_2m_fra','nosnow_15m_fra','SIT_15m_SNOW_5_fra'};
+title_name={'nosnow 2m bin','nosnow 2m fra','nosnow 1.5m fra','SIT 1.5m SNOW 5cm fra'};
+figure
+[ha, pos] = tight_subplot(2,2,[.01 .015],[.01 .04],[.03 .1]);
+for j=1:4
+axes(ha(j));
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+% number below used to change the season and/or annual mean
+m_contourf(lons,lats,eval(['SWUPB_',data_name{j},'_season{5}'])-SWUPB_nosnow_2m_bin_season{5}, -50:1:50,'LineStyle','None');
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([-30 30])
+cmocean('balance',20)
+title([title_name{j},'- nosnow 2m bin'],'FontSize',18)
+m_text(-43,-45,text_all{j},'fontsize',22,'fontname','bold')
+end
+h=colorbar('eastoutside');
+set(h,'fontsize',18,'tickdir','out','linewidth',1)
+%set(get(h,'Title'),'string','Cloud fraction')
+h.Label.String = 'mean upward longwave radiation difference';
+set(h,'position',[.925 .25 .01 .5])
