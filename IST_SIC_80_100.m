@@ -52,7 +52,7 @@ seaice_cdr(seaice_cdr>1)=0;
 eval(['load /Volumes/ExtremePro/MODIS_gauss/MYD29_L2_hourly_clearsky_gauss17km/MYD29_',datestr(date,:)])
 for i=1:24
 data_hour=data_that_hours(:,:,i);
-data_hour(seaice_cdr<0.99)=0;
+data_hour(seaice_cdr<=0.99)=0; %CDR SIC just has two decimal so use ≤0.99 to retain only 100% SIC data.
 data_hour(isnan(seaice_cdr))=0;
 data_aqua(:,:,i)=data_hour;
 end
@@ -60,7 +60,7 @@ end
 eval(['load /Volumes/ExtremePro/MODIS_gauss/MOD29_L2_hourly_clearsky_gauss17km/MOD29_',datestr(date,:)])
 for i=1:24
 data_hour=data_that_hours(:,:,i);
-data_hour(seaice_cdr<0.99)=0;
+data_hour(seaice_cdr<=0.99)=0; %CDR SIC just has two decimal so use ≤0.99 to retain only 100% SIC data.
 data_hour(isnan(seaice_cdr))=0;
 data_terra(:,:,i)=data_hour;
 end
@@ -162,6 +162,11 @@ JRA55_ME{j}=JRA55_ME_season;
 end
 
 
+load('/Volumes/ExtremePro/WANG_SSD/programming_files_stage2/modis/nsidc_grid_tools/area_nasa.mat')
+area_nasa=area_nasa';
+load('/Volumes/ExtremePro/WANG_SSD/programming_files_stage2/modis/nsidc_grid_tools/lon25.mat')
+load('/Volumes/ExtremePro/WANG_SSD/programming_files_stage2/modis/nsidc_grid_tools/lat25.mat')
+
 figure
 %set(gcf,'unit','normalized','position',[.1 .1 .6 .85])
 data_name={'ERA5', 'ERAI', 'MERRA2', 'NCEPR2', 'JRA55','FNL'};
@@ -213,4 +218,7 @@ end
 %m_text(-45,-45,text_no2{i},'fontsize',25,'fontname','bold')
 end
 
-
+h=colorbar('eastoutside');
+set(h,'fontsize',25,'tickdir','out','linewidth',1)
+h.Label.String = '\circC';
+set(h,'position',[.915 .60 .01 .27])
