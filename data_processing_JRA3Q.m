@@ -57,8 +57,8 @@ JRA3Q_LWU_per_day=ncread('/Volumes/PostDoc_drive/JRA3Q/JRA3Q_LWU_polargrid.nc','
 JRA3Q_skt=nthroot((JRA3Q_LWU_per_day-(1-0.99).*JRA3Q_LWD_per_day)./(0.99.*5.67.*(10^(-8))),4);
 JRA3Q_skt(JRA3Q_skt==0)=nan;
 % add cloud mask here
-   cloud_JRA3Q=ncread('/Volumes/PostDoc_drive/JRA3Q/JRA3Q_TCC_polargrid.nc','tcdc-tcl-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
-   JRA3Q_skt(cloud_JRA3Q>20)=nan;
+cloud_JRA3Q=ncread('/Volumes/PostDoc_drive/JRA3Q/JRA3Q_TCC_polargrid.nc','tcdc-tcl-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
+JRA3Q_skt(cloud_JRA3Q>20)=nan;
 data_JRA3Q=permute(JRA3Q_skt,[2 1 3]);
 data_ME_JRA3Q(:,:,i)=mean(data_JRA3Q-data_satellite,3,'omitnan'); 
 i
