@@ -26,6 +26,9 @@ data_JRA3Q=permute(JRA3Q_skt,[2 1 3]);
 data_ME_JRA3Q(:,:,i)=mean(data_JRA3Q-data_satellite,3,'omitnan'); 
 end
 
+cd /Volumes/ExtremePro/MODIS_gauss
+save data_ME_gauss17km_JRA3Q.mat data_ME* -v7.3
+
 
 j=1;
 JRA3Q_ME_season=nanmean(data_ME_JRA3Q(:,:,X{j}),3);
@@ -65,7 +68,8 @@ i
 end
 
 
-
+cd /Volumes/ExtremePro/MODIS_gauss
+save data_ME_02cloud_gauss17km_JRA3Q.mat data_ME* -v7.3
 
 
 
