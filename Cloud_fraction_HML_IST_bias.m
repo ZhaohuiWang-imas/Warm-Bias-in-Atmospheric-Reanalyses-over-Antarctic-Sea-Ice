@@ -480,7 +480,186 @@ NCEPR2_ME_masked{j}=NCEPR2_ME_season./100;
 end
 
 
+%% JRA55 cloud fraction when MOdis clear sky
+
+for i=1:length(x0)
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestr(x0(i),:),'.mat'])
+   % JRA55
+   % add total cloud mask here
+   cloud_JRA55=ncread('/Volumes/ExtremePro/WANG_SSD/JRA55_cloud/JRA55_cloud_merge_polargrid.nc','TCDC_GDS4_ISBY',[1 1 34817+8*(i-1)],[Inf Inf 8]);
+   cloud_JRA55=permute(cloud_JRA55,[2 1 3]);
+   for fr=1:8
+   data_satellite_JRA55(:,:,fr)=mean(data_satellite(:,:,fr*3-2:fr*3),3,'omitnan');
+   end
+   cloud_JRA55(isnan(data_satellite_JRA55))=nan;
+   data_cloud_JRA55_TCF_masked(:,:,i)=mean(cloud_JRA55,3,'omitnan'); 
+
+   % add LCF mask here
+   % JRA55
+   % add LCF cloud mask here
+   cloud_JRA55=ncread('/Volumes/PostDoc_drive/JRA55_cloud_LHM/JRA55_LCF_polargrid.nc','LCDC_GDS4_ISBY',[1 1 1 16117+4*(i-1)],[Inf Inf Inf 5]);
+   cloud_JRA55=permute(cloud_JRA55,[2 1 3 4]);
+   cloud_JRA55=reshape(cloud_JRA55,[332,316,10]);
+   cloud_JRA55=cloud_JRA55(:,:,2:9);
+   for fr=1:8
+   data_satellite_JRA55(:,:,fr)=mean(data_satellite(:,:,fr*3-2:fr*3),3,'omitnan');
+   end
+   cloud_JRA55(isnan(data_satellite_JRA55))=nan;
+   data_cloud_JRA55_LCF_masked(:,:,i)=mean(cloud_JRA55,3,'omitnan'); 
+
+   % add MCF mask here
+   % JRA55
+   % add MCF cloud mask here
+   cloud_JRA55=ncread('/Volumes/PostDoc_drive/JRA55_cloud_LHM/JRA55_MCF_polargrid.nc','MCDC_GDS4_ISBY',[1 1 1 16117+4*(i-1)],[Inf Inf Inf 5]);
+   cloud_JRA55=permute(cloud_JRA55,[2 1 3 4]);
+   cloud_JRA55=reshape(cloud_JRA55,[332,316,10]);
+   cloud_JRA55=cloud_JRA55(:,:,2:9);
+   for fr=1:8
+   data_satellite_JRA55(:,:,fr)=mean(data_satellite(:,:,fr*3-2:fr*3),3,'omitnan');
+   end
+   cloud_JRA55(isnan(data_satellite_JRA55))=nan;
+   data_cloud_JRA55_MCF_masked(:,:,i)=mean(cloud_JRA55,3,'omitnan'); 
+
+   % add HCF mask here
+   % JRA55
+   % add HCF cloud mask here
+   cloud_JRA55=ncread('/Volumes/PostDoc_drive/JRA55_cloud_LHM/JRA55_HCF_polargrid.nc','HCDC_GDS4_ISBY',[1 1 1 16117+4*(i-1)],[Inf Inf Inf 5]);
+   cloud_JRA55=permute(cloud_JRA55,[2 1 3 4]);
+   cloud_JRA55=reshape(cloud_JRA55,[332,316,10]);
+   cloud_JRA55=cloud_JRA55(:,:,2:9);
+   for fr=1:8
+   data_satellite_JRA55(:,:,fr)=mean(data_satellite(:,:,fr*3-2:fr*3),3,'omitnan');
+   end
+   cloud_JRA55(isnan(data_satellite_JRA55))=nan;
+   data_cloud_JRA55_HCF_masked(:,:,i)=mean(cloud_JRA55,3,'omitnan'); 
+
+
+   i
+end
+
+
+for j=1:5
+JRA55_TCF_mask=mean(data_cloud_JRA55_TCF_masked(:,:,X{j}),3,'omitnan');
+cloud_JRA55_TCF_masked{j}=JRA55_TCF_mask./100;
+JRA55_HCF_mask=mean(data_cloud_JRA55_HCF_masked(:,:,X{j}),3,'omitnan');
+cloud_JRA55_HCF_masked{j}=JRA55_HCF_mask./100;
+JRA55_MCF_mask=mean(data_cloud_JRA55_MCF_masked(:,:,X{j}),3,'omitnan');
+cloud_JRA55_MCF_masked{j}=JRA55_MCF_mask./100;
+JRA55_LCF_mask=mean(data_cloud_JRA55_LCF_masked(:,:,X{j}),3,'omitnan');
+cloud_JRA55_LCF_masked{j}=JRA55_LCF_mask./100;
+end
+
+
+figure
+%title_name={'May', 'Jun','Jul','Aug','Sep','Oct'};
+data_name={'TCF','LCF','MCF','HCF'};
+[ha, pos] = tight_subplot(1,4,[0 0],[.1 .1],[.1 .1]);
+var={'TCF','LCF','MCF','HCF'};
+q=1;
+for j=1:4
+        axes(ha(q));
+        m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+        m_contourf(lons,lats,eval(['cloud_JRA55_',var{j},'_masked{1}']), 0:0.05:1,'LineStyle','None');
+        m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+        m_gshhs_l('color','k');
+        caxis([0 1])
+        colortable =textread('WhBlGrYeRe.txt');
+        colormap(colortable(1:5:end,:));
+        q=q+1;
+        
+         title(data_name{j},'FontSize',16,'Interpreter','none')
+        
+%         if j==1
+%          ylabel(data_name{1},'FontSize',16,'fontweight','bold')
+%         end
+        %m_text(-43,-45,text_all{1}{j},'fontsize',18,'fontname','bold')
+end
+
+
+h=colorbar('eastoutside');
+set(h,'fontsize',18,'tickdir','out','linewidth',1)
+%set(get(h,'Title'),'string','SNOWH (cm)')
+h.Label.String = 'Cloud fraction';
+set(h,'position',[.925 .25 .01 .5])
 
 
 
+%% ERA5 cloud fraction when MODIS clear sky
 
+for i=1:length(x0)
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestr(x0(i),:),'.mat'])
+   % add total cloud mask here
+   cloud_ERA5=ncread('/Volumes/ExtremePro/WANG_SSD/ERA5_cloud/ERA5_cloudcover_all_polargrid.nc','var164',[1 1 104449+24*(i-1)],[Inf Inf 24]);
+   cloud_ERA5=permute(cloud_ERA5,[2 1 3]);
+   cloud_ERA5(isnan(data_satellite))=nan;
+   data_cloud_ERA5_TCF_masked(:,:,i)=mean(cloud_ERA5,3,'omitnan'); 
+
+   % add LCF mask here
+   % add LCF cloud mask here
+   cloud_ERA5=ncread('/Volumes/PostDoc_drive/ERA5_cloud_LHM/ERA5_LCF_polargrid.nc','LCC',[1 1 96433+24*(i-1)],[Inf Inf 24]);
+   cloud_ERA5=permute(cloud_ERA5,[2 1 3]);
+   cloud_ERA5(isnan(data_satellite))=nan;
+   data_cloud_ERA5_LCF_masked(:,:,i)=mean(cloud_ERA5,3,'omitnan'); 
+
+   % add MCF mask here
+   % add MCF cloud mask here
+   cloud_ERA5=ncread('/Volumes/PostDoc_drive/ERA5_cloud_LHM/ERA5_MCF_polargrid.nc','MCC',[1 1 96433+24*(i-1)],[Inf Inf 24]);
+   cloud_ERA5=permute(cloud_ERA5,[2 1 3]);
+   cloud_ERA5(isnan(data_satellite))=nan;
+   data_cloud_ERA5_MCF_masked(:,:,i)=mean(cloud_ERA5,3,'omitnan'); 
+
+   % add HCF mask here
+   % add HCF cloud mask here
+   cloud_ERA5=ncread('/Volumes/PostDoc_drive/ERA5_cloud_LHM/ERA5_HCF_polargrid.nc','HCC',[1 1 96433+24*(i-1)],[Inf Inf 24]);
+   cloud_ERA5=permute(cloud_ERA5,[2 1 3]);
+   cloud_ERA5(isnan(data_satellite))=nan;
+   data_cloud_ERA5_HCF_masked(:,:,i)=mean(cloud_ERA5,3,'omitnan'); 
+
+   i
+end
+
+
+for j=1:5
+ERA5_TCF_mask=mean(data_cloud_ERA5_TCF_masked(:,:,X{j}),3,'omitnan');
+cloud_ERA5_TCF_masked{j}=ERA5_TCF_mask;
+ERA5_HCF_mask=mean(data_cloud_ERA5_HCF_masked(:,:,X{j}),3,'omitnan');
+cloud_ERA5_HCF_masked{j}=ERA5_HCF_mask;
+ERA5_MCF_mask=mean(data_cloud_ERA5_MCF_masked(:,:,X{j}),3,'omitnan');
+cloud_ERA5_MCF_masked{j}=ERA5_MCF_mask;
+ERA5_LCF_mask=mean(data_cloud_ERA5_LCF_masked(:,:,X{j}),3,'omitnan');
+cloud_ERA5_LCF_masked{j}=ERA5_LCF_mask;
+end
+
+save cloud_fra_clear_sky_ERA5_HML cloud_ERA5_*_masked
+
+figure
+%title_name={'May', 'Jun','Jul','Aug','Sep','Oct'};
+data_name={'TCF','LCF','MCF','HCF'};
+[ha, pos] = tight_subplot(1,4,[0 0],[.1 .1],[.1 .1]);
+var={'TCF','LCF','MCF','HCF'};
+q=1;
+for j=1:4
+        axes(ha(q));
+        m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+        m_contourf(lons,lats,eval(['cloud_ERA5_',var{j},'_masked{1}']), 0:0.05:1,'LineStyle','None');
+        m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+        m_gshhs_l('color','k');
+        caxis([0 1])
+        colortable =textread('WhBlGrYeRe.txt');
+        colormap(colortable(1:5:end,:));
+        q=q+1;
+        
+         title(data_name{j},'FontSize',16,'Interpreter','none')
+        
+%         if j==1
+%          ylabel(data_name{1},'FontSize',16,'fontweight','bold')
+%         end
+        %m_text(-43,-45,text_all{1}{j},'fontsize',18,'fontname','bold')
+end
+
+
+h=colorbar('eastoutside');
+set(h,'fontsize',18,'tickdir','out','linewidth',1)
+%set(get(h,'Title'),'string','SNOWH (cm)')
+h.Label.String = 'Cloud fraction';
+set(h,'position',[.925 .25 .01 .5])
