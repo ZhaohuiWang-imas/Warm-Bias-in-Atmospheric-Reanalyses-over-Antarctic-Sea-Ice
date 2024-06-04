@@ -480,7 +480,7 @@ NCEPR2_ME_masked{j}=NCEPR2_ME_season./100;
 end
 
 
-%% JRA55 cloud fraction when MOdis clear sky
+%% JRA55 cloud fraction when MODIS clear sky
 
 for i=1:length(x0)
    load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestr(x0(i),:),'.mat'])
@@ -549,6 +549,7 @@ JRA55_LCF_mask=mean(data_cloud_JRA55_LCF_masked(:,:,X{j}),3,'omitnan');
 cloud_JRA55_LCF_masked{j}=JRA55_LCF_mask./100;
 end
 
+save cloud_fra_clear_sky_JRA55_HML cloud_JRA55_*_masked
 
 figure
 %title_name={'May', 'Jun','Jul','Aug','Sep','Oct'};
@@ -663,3 +664,89 @@ set(h,'fontsize',18,'tickdir','out','linewidth',1)
 %set(get(h,'Title'),'string','SNOWH (cm)')
 h.Label.String = 'Cloud fraction';
 set(h,'position',[.925 .25 .01 .5])
+
+
+%% JRA3Q cloud fraction when MODIS clear sky
+
+for i=1:length(x0)
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestr(x0(i),:),'.mat'])
+   % add total cloud mask here
+   cloud_JRA3Q=ncread('/Volumes/PostDoc_drive/JRA3Q/JRA3Q_TCC_polargrid.nc','tcdc-tcl-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
+   cloud_JRA3Q=permute(cloud_JRA3Q,[2 1 3]);
+   cloud_JRA3Q(isnan(data_satellite))=nan;
+   data_cloud_JRA3Q_TCF_masked(:,:,i)=mean(cloud_JRA3Q,3,'omitnan'); 
+
+
+   % add LCF mask here
+   % add LCF cloud mask here
+   cloud_JRA3Q=ncread('/Volumes/PostDoc_drive/JRA3Q/JRA3Q_LCF_polargrid.nc','lcdc-lcl-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
+   cloud_JRA3Q=permute(cloud_JRA3Q,[2 1 3]);
+   cloud_JRA3Q(isnan(data_satellite))=nan;
+   data_cloud_JRA3Q_LCF_masked(:,:,i)=mean(cloud_JRA3Q,3,'omitnan'); 
+
+   % add MCF mask here
+   % add MCF cloud mask here
+   cloud_JRA3Q=ncread('/Volumes/PostDoc_drive/JRA3Q/JRA3Q_MCF_polargrid.nc','mcdc-mcl-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
+   cloud_JRA3Q=permute(cloud_JRA3Q,[2 1 3]);
+   cloud_JRA3Q(isnan(data_satellite))=nan;
+   data_cloud_JRA3Q_MCF_masked(:,:,i)=mean(cloud_JRA3Q,3,'omitnan'); 
+
+   % add HCF mask here
+   % add HCF cloud mask here
+   cloud_JRA3Q=ncread('/Volumes/PostDoc_drive/JRA3Q/JRA3Q_HCF_polargrid.nc','hcdc-hcl-fc-gauss',[1 1 1+24*(i-1)],[Inf Inf 24]);
+   cloud_JRA3Q=permute(cloud_JRA3Q,[2 1 3]);
+   cloud_JRA3Q(isnan(data_satellite))=nan;
+   data_cloud_JRA3Q_HCF_masked(:,:,i)=mean(cloud_JRA3Q,3,'omitnan'); 
+
+   i
+
+end
+
+for j=1:5
+JRA3Q_TCF_mask=mean(data_cloud_JRA3Q_TCF_masked(:,:,X{j}),3,'omitnan');
+cloud_JRA3Q_TCF_masked{j}=JRA3Q_TCF_mask./100;
+JRA3Q_HCF_mask=mean(data_cloud_JRA3Q_HCF_masked(:,:,X{j}),3,'omitnan');
+cloud_JRA3Q_HCF_masked{j}=JRA3Q_HCF_mask./100;
+JRA3Q_MCF_mask=mean(data_cloud_JRA3Q_MCF_masked(:,:,X{j}),3,'omitnan');
+cloud_JRA3Q_MCF_masked{j}=JRA3Q_MCF_mask./100;
+JRA3Q_LCF_mask=mean(data_cloud_JRA3Q_LCF_masked(:,:,X{j}),3,'omitnan');
+cloud_JRA3Q_LCF_masked{j}=JRA3Q_LCF_mask./100;
+end
+
+save cloud_fra_clear_sky_JRA3Q_HML cloud_JRA3Q_*_masked
+
+figure
+%title_name={'May', 'Jun','Jul','Aug','Sep','Oct'};
+data_name={'TCF','LCF','MCF','HCF'};
+[ha, pos] = tight_subplot(1,4,[0 0],[.1 .1],[.1 .1]);
+var={'TCF','LCF','MCF','HCF'};
+q=1;
+for j=1:4
+        axes(ha(q));
+        m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+        m_contourf(lons,lats,eval(['cloud_JRA3Q_',var{j},'_masked{1}']), 0:0.05:1,'LineStyle','None');
+        m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+        m_gshhs_l('color','k');
+        caxis([0 1])
+        colortable =textread('WhBlGrYeRe.txt');
+        colormap(colortable(1:5:end,:));
+        q=q+1;
+        
+         title(data_name{j},'FontSize',16,'Interpreter','none')
+        
+%         if j==1
+%          ylabel(data_name{1},'FontSize',16,'fontweight','bold')
+%         end
+        %m_text(-43,-45,text_all{1}{j},'fontsize',18,'fontname','bold')
+end
+
+
+h=colorbar('eastoutside');
+set(h,'fontsize',18,'tickdir','out','linewidth',1)
+%set(get(h,'Title'),'string','SNOWH (cm)')
+h.Label.String = 'Cloud fraction';
+set(h,'position',[.925 .25 .01 .5])
+
+
+
+
