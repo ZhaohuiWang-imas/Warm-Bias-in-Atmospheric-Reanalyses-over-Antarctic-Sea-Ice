@@ -1299,41 +1299,41 @@ X={x0,x1};
 
 time=1;
 for i=1:length(x0)
-   load(['/Volumes/WANG_SSD/modified_IST_satellite_clearsky/IST_satellite_',datestr(x0(i),:),'.mat'])
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestr(x0(i),:),'.mat'])
    
    % ERA5 radiation 
    % downward shortwave 
-   msdwswrf_ERA5=ncread('/Volumes/Extreme_SSD/ERA5_radiation_polargrid/ERA5_msdwswrf_all.nc','var35',[1 1 8018+24*(i-1)],[Inf Inf 24]); % add one hour here for keep consistans with MODIS
+   msdwswrf_ERA5=ncread('/Volumes/ExtremePro/Extreme_SSD/ERA5_radiation_polargrid/ERA5_msdwswrf_all.nc','var35',[1 1 8018+24*(i-1)],[Inf Inf 24]); % add one hour here for keep consistans with MODIS
    msdwswrf_ERA5=permute(msdwswrf_ERA5,[2 1 3]);
    msdwswrf_ERA5(isnan(data_satellite))=nan;
    msdwswrf_ERA5(msdwswrf_ERA5>10)=nan;
    data_msdwswrf_ERA5(:,:,i)=mean(msdwswrf_ERA5,3,'omitnan'); 
    % upward shortwave 
-   msnswrf_ERA5=ncread('/Volumes/Extreme_SSD/ERA5_radiation_polargrid/ERA5_msnswrf_all.nc','var37',[1 1 8018+24*(i-1)],[Inf Inf 24]); % add one hour here for keep consistans with MODIS
+   msnswrf_ERA5=ncread('/Volumes/ExtremePro/Extreme_SSD/ERA5_radiation_polargrid/ERA5_msnswrf_all.nc','var37',[1 1 8018+24*(i-1)],[Inf Inf 24]); % add one hour here for keep consistans with MODIS
    msnswrf_ERA5=permute(msnswrf_ERA5,[2 1 3]);
    msnswrf_ERA5(isnan(data_satellite))=nan;
    msnswrf_ERA5(isnan(msdwswrf_ERA5))=nan;
    data_msuwswrf_ERA5(:,:,i)=mean(msdwswrf_ERA5-msnswrf_ERA5,3,'omitnan'); 
    % downward longwave 
-   msdwlwrf_ERA5=ncread('/Volumes/Extreme_SSD/ERA5_radiation_polargrid/ERA5_msdwlwrf_all.nc','var36',[1 1 8018+24*(i-1)],[Inf Inf 24]); % add one hour here for keep consistans with MODIS
+   msdwlwrf_ERA5=ncread('/Volumes/ExtremePro/Extreme_SSD/ERA5_radiation_polargrid/ERA5_msdwlwrf_all.nc','var36',[1 1 8018+24*(i-1)],[Inf Inf 24]); % add one hour here for keep consistans with MODIS
    msdwlwrf_ERA5=permute(msdwlwrf_ERA5,[2 1 3]);
    msdwlwrf_ERA5(isnan(data_satellite))=nan;
    msdwlwrf_ERA5(isnan(msdwswrf_ERA5))=nan;
    data_msdwlwrf_ERA5(:,:,i)=mean(msdwlwrf_ERA5,3,'omitnan'); 
    % upward longwave 
-   msnlwrf_ERA5=ncread('/Volumes/Extreme_SSD/ERA5_radiation_polargrid/ERA5_msnlwrf_all.nc','var38',[1 1 8018+24*(i-1)],[Inf Inf 24]); % add one hour here for keep consistans with MODIS
+   msnlwrf_ERA5=ncread('/Volumes/ExtremePro/Extreme_SSD/ERA5_radiation_polargrid/ERA5_msnlwrf_all.nc','var38',[1 1 8018+24*(i-1)],[Inf Inf 24]); % add one hour here for keep consistans with MODIS
    msnlwrf_ERA5=permute(msnlwrf_ERA5,[2 1 3]);
    msnlwrf_ERA5(isnan(data_satellite))=nan;
    msnlwrf_ERA5(isnan(msdwswrf_ERA5))=nan;
    data_msuwlwrf_ERA5(:,:,i)=mean(msdwlwrf_ERA5-msnlwrf_ERA5,3,'omitnan'); 
    % sensible heat flux
-   msshf_ERA5=ncread('/Volumes/Extreme_SSD/ERA5_radiation_polargrid/ERA5_msshf_all.nc','var33',[1 1 8018+24*(i-1)],[Inf Inf 24]); % add one hour here for keep consistans with MODIS
+   msshf_ERA5=ncread('/Volumes/ExtremePro/Extreme_SSD/ERA5_radiation_polargrid/ERA5_msshf_all.nc','var33',[1 1 8018+24*(i-1)],[Inf Inf 24]); % add one hour here for keep consistans with MODIS
    msshf_ERA5=permute(msshf_ERA5,[2 1 3]);
    msshf_ERA5(isnan(data_satellite))=nan;
    msshf_ERA5(isnan(msdwswrf_ERA5))=nan;
    data_msshf_ERA5(:,:,i)=mean(-msshf_ERA5,3,'omitnan'); 
    % latent heat flux
-   mslhf_ERA5=ncread('/Volumes/Extreme_SSD/ERA5_radiation_polargrid/ERA5_mslhf_all.nc','var34',[1 1 8018+24*(i-1)],[Inf Inf 24]); % add one hour here for keep consistans with MODIS
+   mslhf_ERA5=ncread('/Volumes/ExtremePro/Extreme_SSD/ERA5_radiation_polargrid/ERA5_mslhf_all.nc','var34',[1 1 8018+24*(i-1)],[Inf Inf 24]); % add one hour here for keep consistans with MODIS
    mslhf_ERA5=permute(mslhf_ERA5,[2 1 3]);
    mslhf_ERA5(isnan(data_satellite))=nan;
    mslhf_ERA5(isnan(msdwswrf_ERA5))=nan;
@@ -1344,42 +1344,42 @@ for i=1:length(x0)
    data_satellite_JRA55(:,:,fr)=mean(data_satellite(:,:,fr*3-2:fr*3),3,'omitnan');
    end   
    % downward shortwave
-   dswrf_JRA55=ncread('/Volumes/Extreme_SSD/JRA55_radiation_polargrid/JRA55_dswrf_all_polargrid.nc','DSWRF_GDS4_SFC_ave3h',[1 1 1 1337+4*(i-1)],[Inf Inf Inf 4]);
+   dswrf_JRA55=ncread('/Volumes/ExtremePro/Extreme_SSD/JRA55_radiation_polargrid/JRA55_dswrf_all_polargrid.nc','DSWRF_GDS4_SFC_ave3h',[1 1 1 1337+4*(i-1)],[Inf Inf Inf 4]);
    dswrf_JRA55=permute(dswrf_JRA55,[2 1 3 4]);
    dswrf_JRA55=reshape(dswrf_JRA55,[332 316 8]);
    dswrf_JRA55(isnan(data_satellite_JRA55))=nan;
    dswrf_JRA55(dswrf_JRA55>10)=nan;
    data_dswrf_JRA55(:,:,i)=mean(dswrf_JRA55,3,'omitnan');
    % upward shortwave
-   uswrf_JRA55=ncread('/Volumes/Extreme_SSD/JRA55_radiation_polargrid/JRA55_uswrf_all_polargrid.nc','USWRF_GDS4_SFC_ave3h',[1 1 1 1337+4*(i-1)],[Inf Inf Inf 4]);
+   uswrf_JRA55=ncread('/Volumes/ExtremePro/Extreme_SSD/JRA55_radiation_polargrid/JRA55_uswrf_all_polargrid.nc','USWRF_GDS4_SFC_ave3h',[1 1 1 1337+4*(i-1)],[Inf Inf Inf 4]);
    uswrf_JRA55=permute(uswrf_JRA55,[2 1 3 4]);
    uswrf_JRA55=reshape(uswrf_JRA55,[332 316 8]);
    uswrf_JRA55(isnan(data_satellite_JRA55))=nan;
    uswrf_JRA55(isnan(dswrf_JRA55))=nan;
    data_uswrf_JRA55(:,:,i)=mean(uswrf_JRA55,3,'omitnan');
    % downward longwave 
-   dlwrf_JRA55=ncread('/Volumes/Extreme_SSD/JRA55_radiation_polargrid/JRA55_dlwrf_all_polargrid.nc','DLWRF_GDS4_SFC_ave3h',[1 1 1 1337+4*(i-1)],[Inf Inf Inf 4]);
+   dlwrf_JRA55=ncread('/Volumes/ExtremePro/Extreme_SSD/JRA55_radiation_polargrid/JRA55_dlwrf_all_polargrid.nc','DLWRF_GDS4_SFC_ave3h',[1 1 1 1337+4*(i-1)],[Inf Inf Inf 4]);
    dlwrf_JRA55=permute(dlwrf_JRA55,[2 1 3 4]);
    dlwrf_JRA55=reshape(dlwrf_JRA55,[332 316 8]);
    dlwrf_JRA55(isnan(data_satellite_JRA55))=nan;
    dlwrf_JRA55(isnan(dswrf_JRA55))=nan;
    data_dlwrf_JRA55(:,:,i)=mean(dlwrf_JRA55,3,'omitnan');
    % upward longwave
-   ulwrf_JRA55=ncread('/Volumes/Extreme_SSD/JRA55_radiation_polargrid/JRA55_ulwrf_all_polargrid.nc','ULWRF_GDS4_SFC_ave3h',[1 1 1 1337+4*(i-1)],[Inf Inf Inf 4]);
+   ulwrf_JRA55=ncread('/Volumes/ExtremePro/Extreme_SSD/JRA55_radiation_polargrid/JRA55_ulwrf_all_polargrid.nc','ULWRF_GDS4_SFC_ave3h',[1 1 1 1337+4*(i-1)],[Inf Inf Inf 4]);
    ulwrf_JRA55=permute(ulwrf_JRA55,[2 1 3 4]);
    ulwrf_JRA55=reshape(ulwrf_JRA55,[332 316 8]);
    ulwrf_JRA55(isnan(data_satellite_JRA55))=nan;
    ulwrf_JRA55(isnan(dswrf_JRA55))=nan;
    data_ulwrf_JRA55(:,:,i)=mean(ulwrf_JRA55,3,'omitnan');
    % sensible heat flux
-   shtfl_JRA55=ncread('/Volumes/Extreme_SSD/JRA55_radiation_polargrid/JRA55_shtfl_all_polargrid.nc','SHTFL_GDS4_SFC_ave3h',[1 1 1 1337+4*(i-1)],[Inf Inf Inf 4]);
+   shtfl_JRA55=ncread('/Volumes/ExtremePro/Extreme_SSD/JRA55_radiation_polargrid/JRA55_shtfl_all_polargrid.nc','SHTFL_GDS4_SFC_ave3h',[1 1 1 1337+4*(i-1)],[Inf Inf Inf 4]);
    shtfl_JRA55=permute(shtfl_JRA55,[2 1 3 4]);
    shtfl_JRA55=reshape(shtfl_JRA55,[332 316 8]);
    shtfl_JRA55(isnan(data_satellite_JRA55))=nan;
    shtfl_JRA55(isnan(dswrf_JRA55))=nan;
    data_shtfl_JRA55(:,:,i)=mean(shtfl_JRA55,3,'omitnan');
    % latent heat flux
-   lhtfl_JRA55=ncread('/Volumes/Extreme_SSD/JRA55_radiation_polargrid/JRA55_lhtfl_all_polargrid.nc','LHTFL_GDS4_SFC_ave3h',[1 1 1 1337+4*(i-1)],[Inf Inf Inf 4]);
+   lhtfl_JRA55=ncread('/Volumes/ExtremePro/Extreme_SSD/JRA55_radiation_polargrid/JRA55_lhtfl_all_polargrid.nc','LHTFL_GDS4_SFC_ave3h',[1 1 1 1337+4*(i-1)],[Inf Inf Inf 4]);
    lhtfl_JRA55=permute(lhtfl_JRA55,[2 1 3 4]);
    lhtfl_JRA55=reshape(lhtfl_JRA55,[332 316 8]);
    lhtfl_JRA55(isnan(data_satellite_JRA55))=nan;
@@ -1409,6 +1409,9 @@ JRA55_shf_season{j}=mean(data_shtfl_JRA55(:,:,X{j}),3,'omitnan');
 JRA55_lhf_season{j}=mean(data_lhtfl_JRA55(:,:,X{j}),3,'omitnan');
 end
 
+cd /Users/zhaohuiw/Documents/GitHub/Warm-Bias-in-Atmospheric-Reanalyses-over-Antarctic-Sea-Ice
+save ERA5_radiation_less10w ERA5* data*ERA5 -v7.3
+save JRA55_radiation_less10w JRA55* data*JRA55 -v7.3
 
 
 m_proj('stereographic','lat',-90,'lon',0,'radius',35);

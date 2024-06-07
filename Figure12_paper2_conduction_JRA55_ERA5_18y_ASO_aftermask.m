@@ -16,21 +16,21 @@ cd /Users/zhaohuiw/Desktop/Work/programming_files_stage2/modis/nsidc_grid_tools
 load('lon25.mat')
 load('lat25.mat')
 
-cd /Volumes/ExtremePro/Extreme_SSD/radiation_output
+cd /Users/zhaohuiw/Documents/GitHub/Warm-Bias-in-Atmospheric-Reanalyses-over-Antarctic-Sea-Ice
 
-load('JRA55_radiation_lwless10w.mat', 'JRA55_dlwrf_season')
-load('JRA55_radiation_lwless10w.mat', 'JRA55_dswrf_season')
-load('JRA55_radiation_lwless10w.mat', 'JRA55_lhf_season')
-load('JRA55_radiation_lwless10w.mat', 'JRA55_shf_season')
-load('JRA55_radiation_lwless10w.mat', 'JRA55_ulwrf_season')
-load('JRA55_radiation_lwless10w.mat', 'JRA55_uswrf_season')
+load('JRA55_radiation_less10w.mat', 'JRA55_dlwrf_season')
+load('JRA55_radiation_less10w.mat', 'JRA55_dswrf_season')
+load('JRA55_radiation_less10w.mat', 'JRA55_lhf_season')
+load('JRA55_radiation_less10w.mat', 'JRA55_shf_season')
+load('JRA55_radiation_less10w.mat', 'JRA55_ulwrf_season')
+load('JRA55_radiation_less10w.mat', 'JRA55_uswrf_season')
 
-load('ERA5_radiation_lwless10w.mat', 'ERA5_dlwrf_season')
-load('ERA5_radiation_lwless10w.mat', 'ERA5_dswrf_season')
-load('ERA5_radiation_lwless10w.mat', 'ERA5_lhf_season')
-load('ERA5_radiation_lwless10w.mat', 'ERA5_shf_season')
-load('ERA5_radiation_lwless10w.mat', 'ERA5_ulwrf_season')
-load('ERA5_radiation_lwless10w.mat', 'ERA5_uswrf_season')
+load('ERA5_radiation_less10w.mat', 'ERA5_dlwrf_season')
+load('ERA5_radiation_less10w.mat', 'ERA5_dswrf_season')
+load('ERA5_radiation_less10w.mat', 'ERA5_lhf_season')
+load('ERA5_radiation_less10w.mat', 'ERA5_shf_season')
+load('ERA5_radiation_less10w.mat', 'ERA5_ulwrf_season')
+load('ERA5_radiation_less10w.mat', 'ERA5_uswrf_season')
 
 % ﻿ice heat conduction term
 i=2
@@ -82,4 +82,4 @@ end
     JRA55_domain=sum(R(:,:,2).*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(R(:,:,2))),'all','omitnan');
     Diff_domain=sum((R(:,:,1)-R(:,:,2)).*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(R(:,:,1)-R(:,:,2))),'all','omitnan');
 
-    % -35.5847 for JRA55, -52.3459 for ERA5, -16.7694 for diff
+    % -34.9866 for JRA55, -52.7503 for ERA5, -17.7705 for diff
