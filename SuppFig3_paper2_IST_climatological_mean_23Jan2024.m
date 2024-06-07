@@ -12,10 +12,9 @@ x0=(1:length(datevec))';
 [x4,]=find(datevec(:,2)==12 | datevec(:,2)==10 | datevec(:,2)==11);
 X={x0,x1,x2,x3,x4};
 
-cd /Users/zhaohuiw/Desktop
 
-load('data_ME.mat')
-
+cd /Volumes/ExtremePro/MODIS_gauss %changed the MODIS IST resampling methods as response to reviewer comments
+load('data_ME_gauss17km.mat')
 
 load('/Volumes/ExtremePro/WANG_SSD/programming_files_stage2/modis/nsidc_grid_tools/area_nasa.mat')
 area_nasa=area_nasa';
@@ -62,6 +61,50 @@ end
 
 
 
+%% adding JRA3Q 
+clear dates datestr datevec x* X
+%date of each experiment
+dates = [datenum('01-Dec-2013'):datenum('30-Nov-2020')];
+datestr = datestr(dates, 'yyyymmdd');
+datevec=datevec(dates);
+% plot a spatial pattern of climtology mean error of reanalyses in four season (DJF MAM JJA SON)
+% so this is a pattern plot 6 (reanalysis+sate) x 4 (seasons)
+x0=(1:length(datevec))';
+[x1,]=find(datevec(:,2)==3 | datevec(:,2)==1 | datevec(:,2)==2);
+[x2,]=find(datevec(:,2)==6 | datevec(:,2)==4 | datevec(:,2)==5);
+[x3,]=find(datevec(:,2)==9 | datevec(:,2)==7 | datevec(:,2)==8);
+[x4,]=find(datevec(:,2)==12 | datevec(:,2)==10 | datevec(:,2)==11);
+X={x0,x1,x2,x3,x4};
+
+cd /Volumes/ExtremePro/MODIS_gauss
+load  data_ME_gauss17km_JRA3Q.mat data_ME* 
+
+%% Plots of the average (2002-2020) domain averaged temperture for each day (k).
+for day = 1:365
+ x=find(datevec(:,2)==datevec(day+31,2) & datevec(:,3)==datevec(day+31,3)); % +31 to move Jan to the first xtick
+ 
+ IST_JRA3Q_dailyME(:,:,day)=nanmean(data_ME_JRA3Q(:,:,x),3); 
+end
+for i=1:365
+IST_JRA3Q_daily_sum_hourly(i)=nansum(IST_JRA3Q_dailyME(:,:,i).*area_nasa,'all')./nansum(area_nasa(~isnan(IST_JRA3Q_dailyME(:,:,i))),'all');
+end
+
+%% Plots of the average (2002-2020) RMSE between reanalyses and MODIS for each day (k)
+
+%rmse
+for day = 1:365
+ x=find(datevec(:,2)==datevec(day+31,2) & datevec(:,3)==datevec(day+31,3));
+ IST_JRA3Q_dailyrmse(:,:,day)=sqrt(mean(data_ME_JRA3Q(:,:,x),3,'omitnan').^2); 
+end
+
+for i=1:365
+IST_rmse_JRA3Q_daily_sum_hourly(i)=nansum(IST_JRA3Q_dailyrmse(:,:,i).*area_nasa,'all')./nansum(area_nasa(~isnan(IST_JRA3Q_dailyrmse(:,:,i))),'all');
+end
+
+
+
+
+
 figure
 subplot(2,1,1)
 hold on
@@ -70,9 +113,10 @@ plot(1:365,IST_MERRA2_daily_sum_hourly,'LineWidth',2)
 plot(1:365,IST_ERAI_daily_sum_6hourly,'LineWidth',2)
 plot(1:365,IST_NCEPR2_daily_sum_6hourly,'LineWidth',2)
 plot(1:365,IST_JRA55_daily_sum_3hourly,'LineWidth',2)
+plot(1:365,IST_JRA3Q_daily_sum_hourly,'LineWidth',2)
 plot(1:365,0*(1:365),'--','LineWidth',2)
 hold off
-legend('ERA5','MERRA2','ERA-Interim','NCEPR2','JRA55');
+legend('ERA5','MERRA-2','ERA-Interim','NCEPR2','JRA-55','JRA-3Q');
 xticks([31,62,90,121,151,182,212,243,274,304,335,365])
 xticklabels({'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'})
 xlim([1 365])
@@ -88,12 +132,14 @@ plot(1:365,IST_rmse_MERRA2_daily_sum_hourly,'LineWidth',2)
 plot(1:365,IST_rmse_ERAI_daily_sum_6hourly,'LineWidth',2)
 plot(1:365,IST_rmse_NCEPR2_daily_sum_6hourly,'LineWidth',2)
 plot(1:365,IST_rmse_JRA55_daily_sum_3hourly,'LineWidth',2)
+plot(1:365,IST_rmse_JRA3Q_daily_sum_hourly,'LineWidth',2)
 %plot(1:365,0*(1:365),'--','LineWidth',2)
 hold off
-legend('ERA5','MERRA2','ERA-Interim','NCEPR2','JRA55');
+legend('ERA5','MERRA-2','ERA-Interim','NCEPR2','JRA-55','JRA-3Q');
 xticks([31,62,90,121,151,182,212,243,274,304,335,365])
 xticklabels({'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'})
 xlim([1 365])
+ylim([2 9])
 set(gca,'FontSize',22);
 ylabel('RMSE (K)')
 text(2,11,'(b)','FontSize',22)

@@ -68,42 +68,16 @@ text_no1={'(a)','(b)','(c)','(d)','(e)'};
 text_no2={'(f)','(g)','(h)','(i)','(j)'};
 text_no3={'(k)','(l)','(m)','(n)','(o)'};
 
-figure
-set(gcf,'unit','normalized','position',[0.0 0.0 1.0 .60]) % [left bottom width height]
-data_name={'ERA5', 'ERAI', 'MERRA2', 'NCEPR2', 'JRA55','FNL'};
-data_name_title={'ERA5', 'ERA-Interim', 'MERRA2', 'NCEPR2', 'JRA55','FNL'};
-season={'ALL','JFM','AMJ','JAS','OND'};
 
-% plot IST biases without TCF mask
-for i=1:5
-    for j=1
-ax1=axes('position',[0.15*(i-1) 0.50 .37 .37]); % [left bottom width height]
-m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',50,'rectbox','on');
-m_pcolor(lons,lats,eval([data_name{i},'_ME{j}']));
-caxis([-15 15])
-cmocean('balance',30)
-m_gshhs_l('color','k');
-m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
-if j==1
-title(data_name_title{i},'FontSize',20)
-end
-if i==1
-ylabel('MODIS cloud mask','FontSize',22,'FontWeight','bold')
-end
-
-    end
-m_text(-45,-45,text_no1{i},'fontsize',28,'fontname','bold')
-end
-
-%% test figure
+%%  figure
 
 text_no1={'(a)','(b)','(c)','(d)','(e)', '(f)'};
 text_no2={'(g)','(h)','(i)','(j)','(k)','(l)'};
 
 figure
 set(gcf,'unit','normalized','position',[0.0 0.0 0.6 .90]) % [left bottom width height]
-data_name={'ERA5', 'ERAI', 'MERRA2', 'NCEPR2', 'JRA55','JRA3Q'};
-data_name_title={'ERA5', 'ERA-Interim', 'MERRA-2', 'NCEPR2', 'JRA-55','JRA-3Q'};
+data_name={'ERA5', 'ERAI', 'MERRA2', 'JRA3Q','NCEPR2', 'JRA55'};
+data_name_title={'ERA5', 'ERA-Interim', 'MERRA-2', 'JRA-3Q','NCEPR2', 'JRA-55'};
 season={'ALL','JFM','AMJ','JAS','OND'};
 % plot IST biases without TCF mask
 for i=1:6
@@ -129,7 +103,7 @@ m_text(-45,-45,text_no1{i},'fontsize',28,'fontname','bold')
 end
 
 
-%% test end
+%%
 
 % plot IST biases with 20% TCF mask
 
@@ -183,35 +157,6 @@ j=1;
 JRA3Q_ME_season=nanmean(data_ME_JRA3Q(:,:,X{j}),3);
 JRA3Q_ME{j}=JRA3Q_ME_season;
 
-for i=1:5
-    for j=1
-ax2=axes('position',[0.15*(i-1) 0.10 .37 .37]); % [left bottom width height]
-m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',50,'rectbox','on');
-m_pcolor(lons,lats,eval([data_name{i},'_ME{j}']));
-caxis([-15 15])
-cmocean('balance',30)
-m_gshhs_l('color','k');
-m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
-if i==1
-ylabel('MODIS +TCF cloud mask','FontSize',22,'FontWeight','bold')
-end
-    end
-m_text(-45,-45,text_no2{i},'fontsize',28,'fontname','bold')
-end
-
-h=colorbar('eastoutside');
-set(h,'fontsize',25,'tickdir','out','linewidth',1)
-h.Label.String = '\circC';
-set(h,'position',[.87 .20 .01 .57])
-
-%print(gcf, 'figure1_paper2_IST_bias_manuscript_version', '-dpdf', '-r300'); % 保存为PDF格式，分辨率为300 dpi
-
-
-%% test figure
-
-text_no1={'(a)','(b)','(c)','(d)','(e)', '(f)'};
-text_no2={'(g)','(h)','(i)','(j)','(k)','(l)'};
-
 
 % plot IST biases without TCF mask
 for i=1:6
@@ -236,4 +181,14 @@ end
 m_text(-45,-45,text_no2{i},'fontsize',28,'fontname','bold')
 end
 
-%% test end
+
+h=colorbar('eastoutside');
+set(h,'fontsize',25,'tickdir','out','linewidth',1)
+h.Label.String = '\circC';
+set(h,'position',[.70 .20 .01 .57])
+
+%print(gcf, 'figure1_paper2_IST_bias_manuscript_version', '-dpdf', '-r300'); % 保存为PDF格式，分辨率为300 dpi
+
+m_text(0.05,0.05,'MODIS cloud mask','fontsize',28,'fontweight','bold','rotation',90,'horizontalalignment','center','units','normalized')
+
+m_text(0.05,0.05,'MODIS +TCF cloud mask','fontsize',28,'fontweight','bold','rotation',90,'horizontalalignment','center','units','normalized')
