@@ -68,56 +68,16 @@ end
     SIT_domainIST=sum(data_TSK_nosnow_2m_frac_season{1}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(data_TSK_nosnow_2m_frac_season{1})),'all','omitnan');
     SNOW_domainIST=sum(data_TSK_5cmsnow_15_frac_season{1}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(data_TSK_5cmsnow_15_frac_season{1})),'all','omitnan');
     
-    % 4.7144 for EXP-SIT, 4.4643 for EXP-Snow, 5.1173 for QuasiERA5, 2.8996 for QuasiJRA55
-    % This has been changed because resampling method changed to Gauss
+    % 3.5368 for EXP-SIT, 3.2505 for EXP-Snow,  3.9653 for QuasiERA5,  1.6750 for QuasiJRA55
+    % This has been changed from previous because resampling method changed to Gauss
 
 
 
 
-title_name={'Quasi-ERA5','Quasi-JRA55','Exp-SIT','Exp-SNOW'};
-figure
-[ha, pos] = tight_subplot(2,2,[.01 .01],[.01 .04],[.03 .03]);
-axes(ha(1));
-m_proj('stereographic','lat',-90,'lon',0,'radius',40);
-m_pcolor(lons,lats,data_TSK_15_nosnow_frac_season{1});
-m_grid('ytick',8,'xtick',12,'xaxislocation','top');
-%m_gshhs_l('color','k');
-caxis([-15 15])
-cmocean('balance',600)
-colorbar
-title(title_name{1},'FontSize',16)
-colorbar
-axes(ha(2));
-m_proj('stereographic','lat',-90,'lon',0,'radius',40);
-m_pcolor(lons,lats,data_TSK_20_nosnow_binary_season{1});
-m_grid('ytick',8,'xtick',12,'xaxislocation','top');
-%m_gshhs_l('color','k');
-caxis([-15 15])
-cmocean('balance',600)
-title(title_name{2},'FontSize',16)
-colorbar
-axes(ha(3));
-m_proj('stereographic','lat',-90,'lon',0,'radius',40);
-m_pcolor(lons,lats,data_TSK_nosnow_2m_frac_season{1});
-m_grid('ytick',8,'xtick',12,'xaxislocation','top');
-%m_gshhs_l('color','k');
-caxis([-15 15])
-cmocean('balance',600)
-title(title_name{3},'FontSize',16)
-colorbar
-axes(ha(4));
-m_proj('stereographic','lat',-90,'lon',0,'radius',40);
-m_pcolor(lons,lats,data_TSK_5cmsnow_15_frac_season{1});
-m_grid('ytick',8,'xtick',12,'xaxislocation','top');
-%m_gshhs_l('color','k');
-caxis([-15 15])
-cmocean('balance',600)
-title(title_name{4},'FontSize',16)
-colorbar
 
 figure
 [ha, pos] = tight_subplot(2,2,[0.01 0.02],[0.05 0.05],[.13 .13]);
-title_name={'Quasi-ERA5','Quasi-JRA55','Exp-SIT','Exp-SNOW'};
+title_name={'Quasi-ERA5','Quasi-JRA-55','Exp-SIT','Exp-SNOW'};
 text_all={'(a)','(b)','(c)','(d)'};
 
 axes(ha(1));
@@ -125,7 +85,7 @@ m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbo
 m_pcolor(lons,lats,data_TSK_15_nosnow_frac_season{1});
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-12 12])
+caxis([-10 10])
 cmocean('balance',600);
 title(title_name{1},'FontSize',18,'Interpreter','none')
 m_text(-43,-45,text_all{1},'fontsize',22,'fontname','bold')
@@ -138,7 +98,7 @@ m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbo
 m_pcolor(lons,lats,data_TSK_20_nosnow_binary_season{1});
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-12 12])
+caxis([-10 10])
 cmocean('balance',600);
 title(title_name{2},'FontSize',18,'Interpreter','none')
 m_text(-43,-45,text_all{2},'fontsize',22,'fontname','bold')
@@ -151,7 +111,7 @@ m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbo
 m_pcolor(lons,lats,data_TSK_nosnow_2m_frac_season{1});
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-12 12])
+caxis([-10 10])
 cmocean('balance',600);
 title(title_name{3},'FontSize',18,'Interpreter','none')
 m_text(-43,-45,text_all{3},'fontsize',22,'fontname','bold')
@@ -164,9 +124,79 @@ m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbo
 m_pcolor(lons,lats,data_TSK_5cmsnow_15_frac_season{1});
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-12 12])
+caxis([-10 10])
 cmocean('balance',600);
 title(title_name{4},'FontSize',18,'Interpreter','none')
+m_text(-43,-45,text_all{4},'fontsize',22,'fontname','bold')
+h=colorbar('eastoutside');
+set(h,'fontsize',18,'tickdir','out','linewidth',1)
+set(get(h,'Title'),'string','Bias (K)')
+
+
+
+
+
+
+
+
+
+
+%% 
+
+figure
+[ha, pos] = tight_subplot(2,2,[0.01 0.02],[0.05 0.05],[.13 .13]);
+title_name={'Quasi-ERA5','Quasi-JRA-55','Exp-SIT','Exp-SNOW'};
+text_all={'(a)','(b)','(c)','(d)'};
+
+axes(ha(1));
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+m_pcolor(lons,lats,data_TSK_20_nosnow_binary_season{1} - data_TSK_15_nosnow_frac_season{1});
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([-5 5])
+cmocean('balance',600);
+title('Quasi-JRA-55 - Quasi-ERA5','FontSize',18,'Interpreter','none')
+m_text(-43,-45,text_all{1},'fontsize',22,'fontname','bold')
+h=colorbar('eastoutside');
+set(h,'fontsize',18,'tickdir','out','linewidth',1)
+set(get(h,'Title'),'string','Bias (K)')
+
+axes(ha(2));
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+m_pcolor(lons,lats,data_TSK_20_nosnow_binary_season{1} - data_TSK_nosnow_2m_frac_season{1});
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([-5 5])
+cmocean('balance',600);
+title('Quasi-ERA5 - Exp-SIT','FontSize',18,'Interpreter','none')
+m_text(-43,-45,text_all{2},'fontsize',22,'fontname','bold')
+h=colorbar('eastoutside');
+set(h,'fontsize',18,'tickdir','out','linewidth',1)
+set(get(h,'Title'),'string','Bias (K)')
+
+
+
+axes(ha(3));
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+m_pcolor(lons,lats,data_TSK_nosnow_2m_frac_season{1} - data_TSK_15_nosnow_frac_season{1});
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([-5 5])
+cmocean('balance',600);
+title('Exp-SIT - Quasi-ERA5','FontSize',18,'Interpreter','none')
+m_text(-43,-45,text_all{3},'fontsize',22,'fontname','bold')
+h=colorbar('eastoutside');
+set(h,'fontsize',18,'tickdir','out','linewidth',1)
+set(get(h,'Title'),'string','Bias (K)')
+
+axes(ha(4));
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+m_pcolor(lons,lats,data_TSK_5cmsnow_15_frac_season{1} - data_TSK_15_nosnow_frac_season{1});
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([-5 5])
+cmocean('balance',600);
+title('Exp-SNOW - Quasi-ERA5','FontSize',18,'Interpreter','none')
 m_text(-43,-45,text_all{4},'fontsize',22,'fontname','bold')
 h=colorbar('eastoutside');
 set(h,'fontsize',18,'tickdir','out','linewidth',1)

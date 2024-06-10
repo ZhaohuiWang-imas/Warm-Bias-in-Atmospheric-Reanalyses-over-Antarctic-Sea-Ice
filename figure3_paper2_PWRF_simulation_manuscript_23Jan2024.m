@@ -127,7 +127,7 @@ data_SWDNB_ERA5_15_season{j}=mean(data_SWDNB_ERA5_15(:,:,X{j}),3,'omitnan');
 data_SWUPB_ERA5_15_season{j}=mean(data_SWUPB_ERA5_15(:,:,X{j}),3,'omitnan');
 end
 
-q=1;
+q=2;% this should be 2 to only considering the ASO months % should double check later why made mistake
 R_JRA55=-(data_LWUPB_ERA5_20_season{q}+data_SWUPB_ERA5_20_season{q}-data_LWDNB_ERA5_20_season{q}-data_SWDNB_ERA5_20_season{q}+data_HFX_ERA5_20_season{q}+data_LH_ERA5_20_season{q});
 R_ERA5=-(data_LWUPB_ERA5_15_season{q}+data_SWUPB_ERA5_15_season{q}-data_LWDNB_ERA5_15_season{q}-data_SWDNB_ERA5_15_season{q}+data_HFX_ERA5_15_season{q}+data_LH_ERA5_15_season{q});
 R(:,:,1)=R_ERA5; R(:,:,2)=R_JRA55;
@@ -142,8 +142,8 @@ clear HFX_15 HFX_20 LH_15 LH_20 LWDNB_15 LWDNB_20 LWUPB_15 LWUPB_20 SWDNB_15 SWD
     QuasiERA5_domain=sum(R_ERA5.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(R_ERA5)),'all','omitnan');
     QuasiDiff_domain=sum((R(:,:,2)-R(:,:,1)).*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(R(:,:,2)-R(:,:,1))),'all','omitnan');
 
-    % 33.5190 for JRA55, 47.6473 for ERA5, 14.1283 for diff
-    % this should be changed because resampling method changed to Gauss
+    % 36.7648 for JRA55, 48.8100 for ERA5, 12.0451 for diff
+    % this has been changed because resampling method changed to Gauss
 
 
 %%
@@ -271,14 +271,14 @@ end
     JRA55_domainIST=sum(JRA55_ME{1}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(JRA55_ME{1})),'all','omitnan');
     ERA5_domainIST=sum(ERA5_ME{1}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(ERA5_ME{1})),'all','omitnan');
     
-    % 0.8099 for JRA55, 5.9464 for ERA5, 5.1173 for QuasiERA5, 2.8996 for QuasiJRA55
+    % -0.4058 for JRA55,  4.8808 for ERA5,  3.9653 for QuasiERA5, 1.6750 for QuasiJRA55 
     % this should be changed because resampling method changed to Gauss
 
 %%
 
 
 text_all={'(a)','(b)','(c)','(d)','(e)','(f)','(g)','(h)','(i)'};
-title_name={'Quasi-ERA5','Quasi-JRA55','Quasi-ERA5 minus Quasi-JRA55','ERA5','JRA55','ERA5 minus JRA55'};
+title_name={'Quasi-ERA5','Quasi-JRA-55','Quasi-ERA5 minus Quasi-JRA-55','ERA5','JRA-55','ERA5 minus JRA-55'};
 figure
 [ha, pos] = tight_subplot(3,3,[.01 .015],[.0 .04],[.03 .03]);
 axes(ha(4));
@@ -286,7 +286,7 @@ m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbo
 m_pcolor(lons,lats,data_TSK_15_nosnow_frac_season{1});
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-15 15])
+caxis([-10 10])
 cmocean('balance',600)
 title(title_name{1},'FontSize',18)
 m_text(-43,-45,text_all{4},'fontsize',22,'fontname','bold')
@@ -299,7 +299,7 @@ m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbo
 m_pcolor(lons,lats,data_TSK_20_nosnow_binary_season{1});
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-15 15])
+caxis([-10 10])
 cmocean('balance',600)
 title(title_name{2},'FontSize',18)
 m_text(-43,-45,text_all{5},'fontsize',22,'fontname','bold')
@@ -329,7 +329,7 @@ m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbo
 m_pcolor(lons,lats,ERA5_ME{1});
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-20 20])
+caxis([-15 15])
 cmocean('balance',600)
 title(title_name{4},'FontSize',18)
 m_text(-43,-45,text_all{1},'fontsize',22,'fontname','bold')
@@ -343,7 +343,7 @@ m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbo
 m_pcolor(lons,lats,JRA55_ME{1});
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-20 20])
+caxis([-15 15])
 cmocean('balance',600)
 title(title_name{5},'FontSize',18)
 m_text(-43,-45,text_all{2},'fontsize',22,'fontname','bold')
@@ -368,7 +368,7 @@ set(titleObj, 'HorizontalAlignment', 'left');
 
 
 
-title_name={'Ice conduction in Quasi-ERA5','Ice conduction in Quasi-JRA55','Quasi-ERA5 minus Quasi-JRA55'};
+title_name={'Ice conduction in Quasi-ERA5','Ice conduction in Quasi-JRA-55','Quasi-ERA5 minus Quasi-JRA-55'};
 axes(ha(7));
 m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
 m_pcolor(lons,lats,R(:,:,1));
@@ -404,7 +404,7 @@ m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbo
 m_pcolor(lons,lats,R(:,:,2)-R(:,:,1));
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-50 50])
+caxis([-40 40])
 cmocean('balance',600)
 title(title_name{3},'FontSize',18)
 m_text(-43,-45,text_all{9},'fontsize',22,'fontname','bold')
