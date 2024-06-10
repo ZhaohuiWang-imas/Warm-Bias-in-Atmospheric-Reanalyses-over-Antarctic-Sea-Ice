@@ -201,3 +201,187 @@ m_text(-43,-45,text_all{4},'fontsize',22,'fontname','bold')
 h=colorbar('eastoutside');
 set(h,'fontsize',18,'tickdir','out','linewidth',1)
 set(get(h,'Title'),'string','Bias (K)')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%% SEB analysis - ice conduction analysis added as required by reviewer
+
+% EXP-SIT
+
+HFX_SIT=permute(ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_nosnow_2m_fra_polargrid.nc','HFX'),[2 1 3]);
+LH_SIT=permute(ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_nosnow_2m_fra_polargrid.nc','LH'),[2 1 3]);
+LWDNB_SIT=permute(ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_nosnow_2m_fra_polargrid.nc','LWDNB'),[2 1 3]);
+LWUPB_SIT=permute(ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_nosnow_2m_fra_polargrid.nc','LWUPB'),[2 1 3]);
+SWDNB_SIT=permute(ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_nosnow_2m_fra_polargrid.nc','SWDNB'),[2 1 3]);
+SWUPB_SIT=permute(ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_nosnow_2m_fra_polargrid.nc','SWUPB'),[2 1 3]);
+
+for i=1:361
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestring(x0(i),:),'.mat'])
+   %changed to gauss resampling method
+
+   SWDNB_ERA5_SIT=SWDNB_SIT(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
+   SWDNB_ERA5_SIT(isnan(data_satellite))=nan;
+   SWDNB_ERA5_SIT(SWDNB_ERA5_SIT>10)=nan;
+   data_SWDNB_ERA5_SIT(:,:,i)=mean((SWDNB_ERA5_SIT),3,'omitnan'); 
+
+   HFX_ERA5_SIT=HFX_SIT(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
+   HFX_ERA5_SIT(isnan(data_satellite))=nan;
+   HFX_ERA5_SIT(isnan(SWDNB_ERA5_SIT))=nan;
+   data_HFX_ERA5_SIT(:,:,i)=mean((HFX_ERA5_SIT),3,'omitnan'); 
+
+   LH_ERA5_SIT=LH_SIT(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
+   LH_ERA5_SIT(isnan(data_satellite))=nan;
+   LH_ERA5_SIT(isnan(SWDNB_ERA5_SIT))=nan;
+   data_LH_ERA5_SIT(:,:,i)=mean((LH_ERA5_SIT),3,'omitnan'); 
+
+   LWDNB_ERA5_SIT=LWDNB_SIT(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
+   LWDNB_ERA5_SIT(isnan(data_satellite))=nan;
+   LWDNB_ERA5_SIT(isnan(SWDNB_ERA5_SIT))=nan;
+   data_LWDNB_ERA5_SIT(:,:,i)=mean((LWDNB_ERA5_SIT),3,'omitnan'); 
+
+   LWUPB_ERA5_SIT=LWUPB_SIT(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
+   LWUPB_ERA5_SIT(isnan(data_satellite))=nan;
+   LWUPB_ERA5_SIT(isnan(SWDNB_ERA5_SIT))=nan;
+   data_LWUPB_ERA5_SIT(:,:,i)=mean((LWUPB_ERA5_SIT),3,'omitnan'); 
+
+   SWUPB_ERA5_SIT=SWUPB_SIT(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
+   SWUPB_ERA5_SIT(isnan(data_satellite))=nan;
+   SWUPB_ERA5_SIT(isnan(SWDNB_ERA5_SIT))=nan;
+   data_SWUPB_ERA5_SIT(:,:,i)=mean((SWUPB_ERA5_SIT),3,'omitnan'); 
+
+end
+
+for j=1:2
+data_HFX_ERA5_SIT_season{j}=mean(data_HFX_ERA5_SIT(:,:,X{j}),3,'omitnan');
+data_LH_ERA5_SIT_season{j}=mean(data_LH_ERA5_SIT(:,:,X{j}),3,'omitnan');
+data_LWDNB_ERA5_SIT_season{j}=mean(data_LWDNB_ERA5_SIT(:,:,X{j}),3,'omitnan');
+data_LWUPB_ERA5_SIT_season{j}=mean(data_LWUPB_ERA5_SIT(:,:,X{j}),3,'omitnan');
+data_SWDNB_ERA5_SIT_season{j}=mean(data_SWDNB_ERA5_SIT(:,:,X{j}),3,'omitnan');
+data_SWUPB_ERA5_SIT_season{j}=mean(data_SWUPB_ERA5_SIT(:,:,X{j}),3,'omitnan');
+end
+
+
+
+
+%%
+HFX_SNOW=permute(ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_SIT_15m_SNOW_5_frac_polargrid.nc','HFX'),[2 1 3]);
+LH_SNOW=permute(ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_SIT_15m_SNOW_5_frac_polargrid.nc','LH'),[2 1 3]);
+LWDNB_SNOW=permute(ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_SIT_15m_SNOW_5_frac_polargrid.nc','LWDNB'),[2 1 3]);
+LWUPB_SNOW=permute(ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_SIT_15m_SNOW_5_frac_polargrid.nc','LWUPB'),[2 1 3]);
+SWDNB_SNOW=permute(ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_SIT_15m_SNOW_5_frac_polargrid.nc','SWDNB'),[2 1 3]);
+SWUPB_SNOW=permute(ncread('/Volumes/PostDoc_drive/WRF_run_4_exp/WRF_var_SIT_15m_SNOW_5_frac_polargrid.nc','SWUPB'),[2 1 3]);
+
+for i=1:361
+   load(['/Volumes/ExtremePro/MODIS_gauss/modified_IST_satellite_clearsky_gauss17km/IST_satellite_',datestring(x0(i),:),'.mat'])
+   
+   SWDNB_ERA5_SNOW=SWDNB_SNOW(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
+   SWDNB_ERA5_SNOW(isnan(data_satellite))=nan;
+   SWDNB_ERA5_SNOW(SWDNB_ERA5_SNOW>10)=nan;
+   data_SWDNB_ERA5_SNOW(:,:,i)=mean((SWDNB_ERA5_SNOW),3,'omitnan'); 
+   
+   HFX_ERA5_SNOW=HFX_SNOW(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
+   HFX_ERA5_SNOW(isnan(data_satellite))=nan;
+   HFX_ERA5_SNOW(isnan(SWDNB_ERA5_SNOW))=nan;
+   data_HFX_ERA5_SNOW(:,:,i)=mean((HFX_ERA5_SNOW),3,'omitnan'); 
+
+   LH_ERA5_SNOW=LH_SNOW(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
+   LH_ERA5_SNOW(isnan(data_satellite))=nan;
+   LH_ERA5_SNOW(isnan(SWDNB_ERA5_SNOW))=nan;
+   data_LH_ERA5_SNOW(:,:,i)=mean((LH_ERA5_SNOW),3,'omitnan'); 
+
+   LWDNB_ERA5_SNOW=LWDNB_SNOW(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
+   LWDNB_ERA5_SNOW(isnan(data_satellite))=nan;
+   LWDNB_ERA5_SNOW(isnan(SWDNB_ERA5_SNOW))=nan;
+   data_LWDNB_ERA5_SNOW(:,:,i)=mean((LWDNB_ERA5_SNOW),3,'omitnan'); 
+
+   LWUPB_ERA5_SNOW=LWUPB_SNOW(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
+   LWUPB_ERA5_SNOW(isnan(data_satellite))=nan;
+   LWUPB_ERA5_SNOW(isnan(SWDNB_ERA5_SNOW))=nan;
+   data_LWUPB_ERA5_SNOW(:,:,i)=mean((LWUPB_ERA5_SNOW),3,'omitnan'); 
+
+   SWUPB_ERA5_SNOW=SWUPB_SNOW(:,:,(i-1)*24+1:i*24); % add one hour here for keep consistans with MODIS
+   SWUPB_ERA5_SNOW(isnan(data_satellite))=nan;
+   SWUPB_ERA5_SNOW(isnan(SWDNB_ERA5_SNOW))=nan;
+   data_SWUPB_ERA5_SNOW(:,:,i)=mean((SWUPB_ERA5_SNOW),3,'omitnan'); 
+
+end
+
+
+for j=1:2
+data_HFX_ERA5_SNOW_season{j}=mean(data_HFX_ERA5_SNOW(:,:,X{j}),3,'omitnan');
+data_LH_ERA5_SNOW_season{j}=mean(data_LH_ERA5_SNOW(:,:,X{j}),3,'omitnan');
+data_LWDNB_ERA5_SNOW_season{j}=mean(data_LWDNB_ERA5_SNOW(:,:,X{j}),3,'omitnan');
+data_LWUPB_ERA5_SNOW_season{j}=mean(data_LWUPB_ERA5_SNOW(:,:,X{j}),3,'omitnan');
+data_SWDNB_ERA5_SNOW_season{j}=mean(data_SWDNB_ERA5_SNOW(:,:,X{j}),3,'omitnan');
+data_SWUPB_ERA5_SNOW_season{j}=mean(data_SWUPB_ERA5_SNOW(:,:,X{j}),3,'omitnan');
+end
+
+q=2;% this should be 2 to only considering the ASO months % should double check later why made mistake
+R_SIT=-(data_LWUPB_ERA5_SIT_season{q}+data_SWUPB_ERA5_SIT_season{q}-data_LWDNB_ERA5_SIT_season{q}-data_SWDNB_ERA5_SIT_season{q}+data_HFX_ERA5_SIT_season{q}+data_LH_ERA5_SIT_season{q});
+R_SNOW=-(data_LWUPB_ERA5_SNOW_season{q}+data_SWUPB_ERA5_SNOW_season{q}-data_LWDNB_ERA5_SNOW_season{q}-data_SWDNB_ERA5_SNOW_season{q}+data_HFX_ERA5_SNOW_season{q}+data_LH_ERA5_SNOW_season{q});
+R(:,:,1)=R_SIT; R(:,:,2)=R_SNOW;
+
+
+%% calculate the domain-averge ice heat conduction from model
+
+load('/Volumes/ExtremePro/WANG_SSD/programming_files_stage2/modis/nsidc_grid_tools/area_nasa.mat')
+area_nasa=area_nasa';
+EXPSIT_domain=sum(R_SIT.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(R_SIT)),'all','omitnan');
+EXPSNOW_domain=sum(R_SNOW.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(R_SNOW)),'all','omitnan');
+QuasiDiff_domain=sum((R(:,:,2)-R(:,:,1)).*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(R(:,:,2)-R(:,:,1))),'all','omitnan');
+
+
+title_name={'Ice heat conduction in Exp-SIT','Ice heat conduction in Exp-SNOW','Diff (Exp-SIT minus Exp-SNOW)'};
+text_all={'(a)','(b)','(c)','(d)'};
+figure
+[ha, pos] = tight_subplot(1,3,[.01 .02],[.01 .04],[.03 .03]);
+for q=1:3
+if q<3 
+axes(ha(q));
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+m_pcolor(lons,lats,R(:,:,q));
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([-100 100])
+cmocean('balance',600)
+title(title_name{q},'FontSize',18)
+m_text(-43,-45,text_all{q},'fontsize',22,'fontname','bold')
+h=colorbar('eastoutside');
+set(h,'fontsize',18,'tickdir','out','linewidth',1)
+set(get(h,'Title'),'string','W m^-^2')
+end
+
+if q==3
+axes(ha(q));
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+m_pcolor(lons,lats,R(:,:,2)-R(:,:,1));
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([-50 50])
+cmocean('balance',600)
+title(title_name{q},'FontSize',18)
+m_text(-43,-45,text_all{q},'fontsize',22,'fontname','bold')
+h=colorbar('eastoutside');
+set(h,'fontsize',18,'tickdir','out','linewidth',1)
+set(get(h,'Title'),'string','W m^-^2')
+end
+end
+
+
+

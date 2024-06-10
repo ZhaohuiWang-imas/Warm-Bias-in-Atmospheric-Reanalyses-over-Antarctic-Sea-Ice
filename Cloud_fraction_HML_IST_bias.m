@@ -345,7 +345,7 @@ text_no3={'(k)','(l)','(m)','(n)','(o)'};
 figure
 set(gcf,'unit','normalized','position',[.1 .08 .6 .85])
 for i=1:5
-    for j=1
+    for j=2
 ax1=axes('position',[0.1+0.16*(i-1) 0.7 .15 .20]); % [left bottom width height]
 m_proj('azimuthal equal-area','latitude',-88,'longitude',0,'radius',49,'rectbox','on');
 m_pcolor(lons,lats,eval(['ERA5_ME_',Var_name{i},'{j}']));
@@ -367,7 +367,7 @@ set(h,'position',[.90 .71 .01 .18])
 
 
 for i=1:5
-    for j=1
+    for j=2
 ax2=axes('position',[0.1+0.16*(i-1) 0.5 .15 .20]); % [left bottom width height]
 m_pcolor(lons,lats,eval(['JRA3Q_ME_',Var_name{i},'{j}']));
 caxis([-15 15])
@@ -386,7 +386,7 @@ h.Label.String = '\circC';
 set(h,'position',[.90 .51 .01 .18])
 
 for i=1:5
-    for j=1
+    for j=2
 ax3=axes('position',[0.1+0.16*(i-1) 0.3 .15 .20]); % [left bottom width height]
 m_pcolor(lons,lats,eval(['JRA55_ME_',Var_name{i},'{j}']));
 caxis([-15 15])
@@ -589,7 +589,7 @@ q=1;
 for j=1:4
         axes(ha(q));
         m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
-        m_contourf(lons,lats,eval(['cloud_ERA5_',var{j},'_masked{1}']), 0:0.05:1,'LineStyle','None');
+        m_contourf(lons,lats,eval(['cloud_ERA5_',var{j},'_masked{4}']), 0:0.05:1,'LineStyle','None');
         m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
         m_gshhs_l('color','k');
         caxis([0 1])
@@ -698,4 +698,71 @@ set(h,'position',[.925 .25 .01 .5])
 
 
 
+% make plot for reviewer
+data_name={'TCF','LCF','MCF','HCF'};
+var={'TCF','LCF','MCF','HCF'};
+text_no1={'(a1)','(b1)','(c1)','(d1)'};
+text_no2={'(a2)','(b2)','(c2)','(d2)'};
+text_no3={'(a3)','(b3)','(c3)','(d3)'};
 
+figure
+set(gcf,'unit','normalized','position',[.1 .08 .6 .85])
+for j=1:4
+ax1=axes('position',[0.1+0.16*(j-1) 0.7 .15 .20]); % [left bottom width height]
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+m_contourf(lons,lats,eval(['cloud_JRA3Q_',var{j},'_masked{1}']), 0:0.05:1,'LineStyle','None');
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([0 1])
+colortable =textread('WhBlGrYeRe.txt');
+colormap(colortable(1:5:end,:));
+q=q+1;    
+title(data_name{j},'FontSize',16,'Interpreter','none')
+if j==1
+    ylabel('JRA-3Q','FontSize',20)
+end
+title(data_name{j},'FontSize',20)
+m_text(-45,-45,text_no1{j},'fontsize',18,'fontname','bold')
+end
+
+for j=1:4
+ax2=axes('position',[0.1+0.16*(j-1) 0.5 .15 .20]); % [left bottom width height]
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+m_contourf(lons,lats,eval(['cloud_JRA55_',var{j},'_masked{1}']), 0:0.05:1,'LineStyle','None');
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([0 1])
+colortable =textread('WhBlGrYeRe.txt');
+colormap(colortable(1:5:end,:));
+q=q+1;    
+%title(data_name{j},'FontSize',16,'Interpreter','none')
+if j==1
+    ylabel('JRA-55','FontSize',20)
+end
+%title(data_name{j},'FontSize',20)
+m_text(-45,-45,text_no2{j},'fontsize',18,'fontname','bold')
+end
+
+for j=1:4
+ax3=axes('position',[0.1+0.16*(j-1) 0.3 .15 .20]); % [left bottom width height]
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+m_contourf(lons,lats,eval(['cloud_ERA5_',var{j},'_masked{1}']), 0:0.05:1,'LineStyle','None');
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([0 1])
+colortable =textread('WhBlGrYeRe.txt');
+colormap(colortable(1:5:end,:));
+q=q+1;    
+%title(data_name{j},'FontSize',16,'Interpreter','none')
+if j==1
+    ylabel('ERA5','FontSize',20)
+end
+%title(data_name{j},'FontSize',20)
+m_text(-45,-45,text_no3{j},'fontsize',18,'fontname','bold')
+end
+
+h=colorbar('eastoutside');
+set(h,'fontsize',18,'tickdir','out','linewidth',1)
+%set(get(h,'Title'),'string','SNOWH (cm)')
+h.Label.String = 'Cloud fraction';
+set(h,'position',[.75 .35 .01 .5])

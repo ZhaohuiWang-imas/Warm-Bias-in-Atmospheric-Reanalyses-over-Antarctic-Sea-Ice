@@ -16,9 +16,9 @@ x0=(1:length(datevec))';
 [x4,]=find(datevec(:,2)==12 | datevec(:,2)==10 | datevec(:,2)==11);
 X={x0,x1,x2,x3,x4};
 
-cd /Users/zhaohuiw/Desktop
 
-load('data_ME.mat')
+cd /Volumes/ExtremePro/MODIS_gauss %changed the MODIS IST resampling methods as response to reviewer comments
+load('data_ME_gauss17km.mat')
 
 for j=1:5
 ERA5_ME_season=nanmean(data_ME_ERA5(:,:,X{j}),3);
@@ -37,6 +37,33 @@ JRA55_ME_season=nanmean(data_ME_JRA55(:,:,X{j}),3);
 JRA55_ME{j}=JRA55_ME_season;
 
 end
+
+
+%% add JRA3Q
+clear dates datestr datevec x* X
+%date of each experiment
+dates = [datenum('01-Dec-2013'):datenum('30-Nov-2020')];
+datestr = datestr(dates, 'yyyymmdd');
+datevec=datevec(dates);
+% plot a spatial pattern of climtology mean error of reanalyses in four season (DJF MAM JJA SON)
+% so this is a pattern plot 6 (reanalysis+sate) x 4 (seasons)
+x0=(1:length(datevec))';
+[x1,]=find(datevec(:,2)==3 | datevec(:,2)==1 | datevec(:,2)==2);
+[x2,]=find(datevec(:,2)==6 | datevec(:,2)==4 | datevec(:,2)==5);
+[x3,]=find(datevec(:,2)==9 | datevec(:,2)==7 | datevec(:,2)==8);
+[x4,]=find(datevec(:,2)==12 | datevec(:,2)==10 | datevec(:,2)==11);
+X={x0,x1,x2,x3,x4};
+
+cd /Volumes/ExtremePro/MODIS_gauss
+load  data_ME_gauss17km_JRA3Q.mat data_ME* 
+
+for j=1:5
+JRA3Q_ME_season=nanmean(data_ME_JRA3Q(:,:,X{j}),3);
+JRA3Q_ME{j}=JRA3Q_ME_season;
+end
+
+clear dates datestr datevec x* X
+
 
 %%add the 80% SIC line to each figures
 
@@ -63,21 +90,21 @@ load('lon25.mat')
 load('lat25.mat')
 
 
-text_no1={'(a)','(b)','(c)','(d)','(e)'};
-text_no2={'(f)','(g)','(h)','(i)','(j)'};
-text_no3={'(k)','(l)','(m)','(n)','(o)'};
-text_no4={'(p)','(q)','(r)','(s)','(t)'};
-text_no5={'(u)','(v)','(w)','(x)','(y)'};
+text_no1={'(a1)','(b1)','(c1)','(d1)','(e1)','(f1)'};
+text_no2={'(a2)','(b2)','(c2)','(d2)','(e2)','(f2)'};
+text_no3={'(a3)','(b3)','(c3)','(d3)','(e3)','(f3)'};
+text_no4={'(a4)','(b4)','(c4)','(d4)','(e4)','(f4)'};
+text_no5={'(a5)','(b5)','(c5)','(d5)','(e5)','(f5)'};
 
 figure
 %set(gcf,'unit','normalized','position',[.1 .1 .6 .85])
-data_name={'ERA5', 'ERAI', 'MERRA2', 'NCEPR2', 'JRA55','FNL'};
-title_name={'ERA5', 'ERA-Interim', 'MERRA2', 'NCEPR2', 'JRA55','FNL'};
+data_name={'ERA5', 'ERAI', 'MERRA2', 'JRA3Q', 'NCEPR2', 'JRA55'};
+title_name={'ERA5', 'ERA-Interim', 'MERRA-2', 'JRA-3Q','NCEPR2', 'JRA-55'};
 season={'ALL','JFM','AMJ','JAS','OND'};
 
-for i=1:5
+for i=1:6
     for j=1
-ax1=axes('position',[0.1+0.16*(i-1) 0.75-0.18*(j-1) .18 .18]); % [left bottom width height]
+ax1=axes('position',[0.1+0.12*(i-1) 0.75-0.16*(j-1) .15 .15]); % [left bottom width height]
 m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',50,'rectbox','on');
 m_pcolor(lons,lats,eval([data_name{i},'_ME{j}']));
 hold on
@@ -95,12 +122,12 @@ ylabel(season{j},'FontSize',16,'FontWeight','bold')
 end
 
     end
-m_text(-45,-45,text_no1{i},'fontsize',25,'fontname','bold')
+m_text(-45,-45,text_no1{i},'fontsize',15,'fontname','bold')
 end
 
-for i=1:5
+for i=1:6
     for j=2
-ax1=axes('position',[0.1+0.16*(i-1) 0.75-0.18*(j-1) .18 .18]); % [left bottom width height]
+ax1=axes('position',[0.1+0.12*(i-1) 0.75-0.16*(j-1) .15 .15]); % [left bottom width height]
 m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',50,'rectbox','on');
 m_pcolor(lons,lats,eval([data_name{i},'_ME{j}']));
 hold on
@@ -118,12 +145,12 @@ ylabel(season{j},'FontSize',16,'FontWeight','bold')
 end
 
     end
-m_text(-45,-45,text_no2{i},'fontsize',25,'fontname','bold')
+m_text(-45,-45,text_no2{i},'fontsize',15,'fontname','bold')
 end
 
-for i=1:5
+for i=1:6
     for j=3
-ax1=axes('position',[0.1+0.16*(i-1) 0.75-0.18*(j-1) .18 .18]); % [left bottom width height]
+ax1=axes('position',[0.1+0.12*(i-1) 0.75-0.16*(j-1) .15 .15]); % [left bottom width height]
 m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',50,'rectbox','on');
 m_pcolor(lons,lats,eval([data_name{i},'_ME{j}']));
 hold on
@@ -141,12 +168,12 @@ ylabel(season{j},'FontSize',16,'FontWeight','bold')
 end
 
     end
-m_text(-45,-45,text_no3{i},'fontsize',25,'fontname','bold')
+m_text(-45,-45,text_no3{i},'fontsize',15,'fontname','bold')
 end
 
-for i=1:5
+for i=1:6
     for j=4
-ax1=axes('position',[0.1+0.16*(i-1) 0.75-0.18*(j-1) .18 .18]); % [left bottom width height]
+ax1=axes('position',[0.1+0.12*(i-1) 0.75-0.16*(j-1) .15 .15]); % [left bottom width height]
 m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',50,'rectbox','on');
 m_pcolor(lons,lats,eval([data_name{i},'_ME{j}']));
 hold on
@@ -164,13 +191,13 @@ ylabel(season{j},'FontSize',16,'FontWeight','bold')
 end
 
     end
-m_text(-45,-45,text_no4{i},'fontsize',25,'fontname','bold')
+m_text(-45,-45,text_no4{i},'fontsize',15,'fontname','bold')
 end
 
 
-for i=1:5
+for i=1:6
     for j=5
-ax1=axes('position',[0.1+0.16*(i-1) 0.75-0.18*(j-1) .18 .18]); % [left bottom width height]
+ax1=axes('position',[0.1+0.12*(i-1) 0.75-0.16*(j-1) .15 .15]); % [left bottom width height]
 m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',50,'rectbox','on');
 m_pcolor(lons,lats,eval([data_name{i},'_ME{j}']));
 hold on
@@ -188,7 +215,7 @@ ylabel(season{j},'FontSize',16,'FontWeight','bold')
 end
 
     end
-m_text(-45,-45,text_no5{i},'fontsize',25,'fontname','bold')
+m_text(-45,-45,text_no5{i},'fontsize',15,'fontname','bold')
 end
 
 h=colorbar('eastoutside');
