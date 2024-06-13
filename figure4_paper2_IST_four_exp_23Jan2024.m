@@ -208,7 +208,107 @@ set(get(h,'Title'),'string','Bias (K)')
 
 
 
+%% seasonal plot as requested by reviewer
 
+figure
+%set(gcf,'unit','normalized','position',[.1 .1 .6 .85])
+season={'ALL','JFM','AMJ','JAS','OND'};
+title_name={'Quasi-ERA5','Quasi-JRA-55','Exp-SIT','Exp-SNOW'};
+text_no1={'(a1)','(b1)','(c1)','(d1)','(e1)'};
+text_no2={'(a2)','(b2)','(c2)','(d2)','(e2)'};
+text_no3={'(a3)','(b3)','(c3)','(d3)','(e3)'};
+text_no4={'(a4)','(b4)','(c4)','(d4)','(e4)'};
+
+
+for i=1:5
+    for j=1
+ax1=axes('position',[0.1+0.12*(i-1) 0.75-0.16*(j-1) .15 .15]); % [left bottom width height]
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+m_pcolor(lons,lats,data_TSK_20_nosnow_binary_season{i} - data_TSK_15_nosnow_frac_season{i});
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([-5 5])
+cmocean('balance',600);
+if j==1
+title(season{i},'FontSize',16)
+end
+if i==1
+ylabel('Q-JRA-55 - Q-ERA5','FontSize',16,'FontWeight','bold')
+end
+
+    end
+m_text(-45,-45,text_no1{i},'fontsize',15,'fontname','bold')
+end
+
+
+for i=1:5
+    for j=2
+ax1=axes('position',[0.1+0.12*(i-1) 0.75-0.16*(j-1) .15 .15]); % [left bottom width height]
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+m_pcolor(lons,lats,data_TSK_20_nosnow_binary_season{i} - data_TSK_nosnow_2m_frac_season{i});
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([-5 5])
+cmocean('balance',600);
+if j==1
+title(season{i},'FontSize',16)
+end
+if i==1
+ylabel('Q-ERA5 - Exp-SIT','FontSize',16,'FontWeight','bold')
+end
+
+    end
+m_text(-45,-45,text_no2{i},'fontsize',15,'fontname','bold')
+end
+
+
+for i=1:5
+    for j=3
+ax1=axes('position',[0.1+0.12*(i-1) 0.75-0.16*(j-1) .15 .15]); % [left bottom width height]
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+m_pcolor(lons,lats,data_TSK_nosnow_2m_frac_season{i} - data_TSK_15_nosnow_frac_season{i});
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([-5 5])
+cmocean('balance',600);
+if j==1
+title(season{i},'FontSize',16)
+end
+if i==1
+ylabel('Exp-SIT - Q-ERA5','FontSize',16,'FontWeight','bold')
+end
+
+    end
+m_text(-45,-45,text_no3{i},'fontsize',15,'fontname','bold')
+end
+
+for i=1:5
+    for j=4
+ax1=axes('position',[0.1+0.12*(i-1) 0.75-0.16*(j-1) .15 .15]); % [left bottom width height]
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
+m_pcolor(lons,lats,data_TSK_5cmsnow_15_frac_season{i} - data_TSK_15_nosnow_frac_season{i});
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+m_gshhs_l('color','k');
+caxis([-5 5])
+cmocean('balance',600);
+if j==1
+title(season{i},'FontSize',16)
+end
+if i==1
+ylabel('Exp-SNOW - Q-ERA5','FontSize',16,'FontWeight','bold')
+end
+
+    end
+m_text(-45,-45,text_no4{i},'fontsize',15,'fontname','bold')
+end
+
+h=colorbar('eastoutside');
+set(h,'fontsize',18,'tickdir','out','linewidth',1)
+h.Label.String = 'MBias difference (K)';
+set(h,'position',[.49 .13 .01 .4])
+
+
+%%
 
 
 
@@ -221,6 +321,23 @@ set(get(h,'Title'),'string','Bias (K)')
 
 
 %% SEB analysis - ice conduction analysis added as required by reviewer
+clear dates datestring datevect
+dates = [datenum('02-Jan-2018'):datenum('03-Jan-2019')];
+datestring = datestr(dates, 'yyyymmdd');
+datevect=datevec(dates);
+
+datestring=[datestring(1:274,:);datestring(279:365,:)];
+datevect=[datevect(1:274,:);datevect(279:365,:)];
+
+
+x0=(1:length(datevect))';
+[x1,]=find(datevect(:,2)==8 | datevect(:,2)==9 | datevect(:,2)==10);
+X={x0,x1};
+
+cd /Users/zhaohuiw/Desktop/Work/programming_files_stage2/modis/nsidc_grid_tools
+
+load('lon25.mat')
+load('lat25.mat')
 
 % EXP-SIT
 
@@ -373,7 +490,7 @@ m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbo
 m_pcolor(lons,lats,R(:,:,2)-R(:,:,1));
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
-caxis([-50 50])
+caxis([-40 40])
 cmocean('balance',600)
 title(title_name{q},'FontSize',18)
 m_text(-43,-45,text_all{q},'fontsize',22,'fontname','bold')

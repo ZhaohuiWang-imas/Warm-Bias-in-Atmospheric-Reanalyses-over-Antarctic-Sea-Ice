@@ -138,8 +138,8 @@ end
     data_SWUPB_ERA5_20_season_domain{i}=sum(data_SWUPB_ERA5_20_season{i}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(data_SWUPB_ERA5_20_season{i})),'all','omitnan');
     end
     
-
-
+cd /Users/zhaohuiw/Documents/GitHub/Warm-Bias-in-Atmospheric-Reanalyses-over-Antarctic-Sea-Ice
+%save Quasi_JRA55_ERA5_SEB data_*_season_domain 
 
 
 
