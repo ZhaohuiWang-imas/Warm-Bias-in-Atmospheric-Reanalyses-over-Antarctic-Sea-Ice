@@ -65,6 +65,22 @@ end
 clear dates datestr datevec x* X
 
 
+
+%%calculate the domain average
+
+load('/Volumes/ExtremePro/WANG_SSD/programming_files_stage2/modis/nsidc_grid_tools/area_nasa.mat')
+    area_nasa=area_nasa';
+    for i=1:5
+    ERA5_domain{i}=sum(ERA5_ME{i}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(ERA5_ME{i})),'all','omitnan');
+    ERAI_domain{i}=sum(ERAI_ME{i}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(ERAI_ME{i})),'all','omitnan');
+    MERRA2_domain{i}=sum(MERRA2_ME{i}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(MERRA2_ME{i})),'all','omitnan');
+    JRA3Q_domain{i}=sum(JRA3Q_ME{i}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(JRA3Q_ME{i})),'all','omitnan');
+    NCEPR2_domain{i}=sum(NCEPR2_ME{i}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(NCEPR2_ME{i})),'all','omitnan');
+    JRA55_domain{i}=sum(JRA55_ME{i}.*area_nasa,'all','omitnan')./sum(area_nasa(~isnan(JRA55_ME{i})),'all','omitnan');
+    end
+%%
+
+
 %%add the 80% SIC line to each figures
 
 % for j=1:5
