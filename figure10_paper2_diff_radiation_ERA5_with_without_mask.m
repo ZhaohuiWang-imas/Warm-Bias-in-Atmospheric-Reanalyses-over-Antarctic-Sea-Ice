@@ -47,9 +47,10 @@ q=1;
     end
 
 axes(ha(4));
-load('data_ME.mat', 'data_ME_ERA5')
+cd /Volumes/ExtremePro/MODIS_gauss/ %15June 2024
+load('data_ME_gauss17km.mat', 'data_ME_ERA5')
 ERA5_ME=mean(data_ME_ERA5,3,'omitnan');
-load('data_ME_02cloud.mat', 'data_ME_ERA5')
+load('data_ME_02cloud_gauss17km.mat', 'data_ME_ERA5')
 ERA5_ME_clearsky=mean(data_ME_ERA5,3,'omitnan');
 
 m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',47.9,'rectbox','on');
@@ -91,7 +92,8 @@ b=reshape(b,[332*316 1]);
 %and IST bias difference before and after clouyd mask
 
 
-cd /Volumes/ExtremePro/Extreme_SSD/radiation_output
+cd /Users/zhaohuiw/Documents/GitHub/Warm-Bias-in-Atmospheric-Reanalyses-over-Antarctic-Sea-Ice 
+%change to new resampling
 
 load('ERA5_radiation.mat', 'ERA5_dlwrf_season')
 load('ERA5_radiation.mat', 'ERA5_dswrf_season')
