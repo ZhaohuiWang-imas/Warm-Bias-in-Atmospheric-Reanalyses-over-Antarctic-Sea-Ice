@@ -381,8 +381,10 @@ m_contourf(lons,lats,eval([data_name{1},'_ME_masked{1}']), 0:0.05:1,'LineStyle',
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
 caxis([0 1])
-colortable =textread('WhBlGrYeRe.txt');
-colormap(ax1,colortable(1:5:end,:));
+%colortable =textread('WhBlGrYeRe.txt');
+%colormap(ax1,colortable(1:5:end,:));
+%colormap(parula(20))
+cmocean('haline',10)
  title(data_name{1},'FontSize',16,'Interpreter','none')     
 %         if j==1
 %          ylabel(data_name{1},'FontSize',16,'fontweight','bold')
@@ -395,8 +397,10 @@ m_contourf(lons,lats,eval([data_name{2},'_ME_masked{1}']), 0:0.05:1,'LineStyle',
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
 caxis([0 1])
-colortable =textread('WhBlGrYeRe.txt');
-colormap(ax1,colortable(1:5:end,:));
+%colortable =textread('WhBlGrYeRe.txt');
+%colormap(ax1,colortable(1:5:end,:));
+%colormap(parula(20))
+cmocean('haline',10)
  title(data_name{2},'FontSize',16,'Interpreter','none')     
 %         if j==1
 %          ylabel(data_name{1},'FontSize',16,'fontweight','bold')
@@ -423,8 +427,9 @@ m_scatter(LON(a_reduce<0.05),LAT(a_reduce<0.05),25,'k','.');
 hold off
 m_gshhs_l('color','k');
 caxis([0 0.8])
-colortable =textread('WhBlGrYeRe.txt');
-colormap(ax2,colortable(1:14:100,:));
+%colortable =textread('WhBlGrYeRe.txt');
+%colormap(ax2,colortable(1:14:100,:));
+cmocean('haline',8)
 title(data_name{1},'FontSize',16)
 m_text(-37,-39,text_no1{3},'fontsize',18,'fontname','bold')
 
@@ -440,8 +445,9 @@ m_scatter(LON(a_reduce<0.05),LAT(a_reduce<0.05),25,'k','.');
 hold off
 m_gshhs_l('color','k');
 caxis([0 0.8])
-colortable =textread('WhBlGrYeRe.txt');
-colormap(ax2,colortable(1:14:100,:));
+%colortable =textread('WhBlGrYeRe.txt');
+%colormap(ax2,colortable(1:14:100,:));
+cmocean('haline',8)
 title(data_name{2},'FontSize',16)
 m_text(-37,-39,text_no1{4},'fontsize',18,'fontname','bold')
 
@@ -465,7 +471,7 @@ Y=[ERA5_dlwrf_season_domain,ERA5_dlwrf_season_domain_allsky,ERA5_dlwrf_season_do
    %yticklabels({'dlwrf','dswrf','lhf','shf','ulwrf','uswrf'})
    %yticklabels({'\textit{L_d}','\textit{S_d}','\textit{F_{lh}}','\textit{F_{hs}}','\textit{L_u}','\textit{S_u}'})
    % 设置 y 轴刻度标签
-   yticks = {'L_d','L_u','F_{lh}','F_{hs}','S_d','S_u'};
+   yticks = {'L_d','L_u','F_{lh}','F_{sh}','S_d','S_u'};
    set(gca, 'YTickLabel', yticks, 'FontAngle', 'italic');
 
    xlabel('Surface energy budget (W m^-^2)')
@@ -500,7 +506,7 @@ Y=[JRA55_dlwrf_season_domain,JRA55_dlwrf_season_domain_allsky,JRA55_dlwrf_season
    %yticklabels({'dlwrf','dswrf','lhf','shf','ulwrf','uswrf'})
    %yticklabels({'L_d','S_d','F_{lh}','F_{hs}','L_u','S_u'} )
    % 设置 y 轴刻度标签
-   yticks = {'L_d','L_u','F_{lh}','F_{hs}','S_d','S_u'};
+   yticks = {'L_d','L_u','F_{lh}','F_{sh}','S_d','S_u'};
    set(gca, 'YTickLabel', yticks, 'FontAngle', 'italic');
    
    xlim([-300 300]);

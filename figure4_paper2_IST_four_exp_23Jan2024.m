@@ -168,7 +168,7 @@ m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tick
 m_gshhs_l('color','k');
 caxis([-5 5])
 cmocean('balance',600);
-title('Quasi-ERA5 - Exp-SIT','FontSize',18,'Interpreter','none')
+title('Quasi-JRA-55 - Exp-SIT','FontSize',18,'Interpreter','none')
 m_text(-43,-45,text_all{2},'fontsize',22,'fontname','bold')
 h=colorbar('eastoutside');
 set(h,'fontsize',18,'tickdir','out','linewidth',1)

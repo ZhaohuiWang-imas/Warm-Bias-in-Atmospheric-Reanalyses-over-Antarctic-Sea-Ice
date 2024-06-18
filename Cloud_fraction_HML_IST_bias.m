@@ -714,8 +714,10 @@ m_contourf(lons,lats,eval(['cloud_JRA3Q_',var{j},'_masked{1}']), 0:0.05:1,'LineS
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
 caxis([0 1])
-colortable =textread('WhBlGrYeRe.txt');
-colormap(colortable(1:5:end,:));
+%colortable =textread('WhBlGrYeRe.txt');
+%colormap(colortable(1:5:end,:));
+colormap(parula(20))
+
 q=q+1;    
 title(data_name{j},'FontSize',16,'Interpreter','none')
 if j==1
@@ -732,8 +734,9 @@ m_contourf(lons,lats,eval(['cloud_JRA55_',var{j},'_masked{1}']), 0:0.05:1,'LineS
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
 caxis([0 1])
-colortable =textread('WhBlGrYeRe.txt');
-colormap(colortable(1:5:end,:));
+%colortable =textread('WhBlGrYeRe.txt');
+%colormap(colortable(1:5:end,:));
+colormap(parula(20))
 q=q+1;    
 %title(data_name{j},'FontSize',16,'Interpreter','none')
 if j==1
@@ -750,8 +753,9 @@ m_contourf(lons,lats,eval(['cloud_ERA5_',var{j},'_masked{1}']), 0:0.05:1,'LineSt
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 m_gshhs_l('color','k');
 caxis([0 1])
-colortable =textread('WhBlGrYeRe.txt');
-colormap(colortable(1:5:end,:));
+%colortable =textread('WhBlGrYeRe.txt');
+%colormap(colortable(1:5:end,:));
+colormap(parula(20))
 q=q+1;    
 %title(data_name{j},'FontSize',16,'Interpreter','none')
 if j==1
