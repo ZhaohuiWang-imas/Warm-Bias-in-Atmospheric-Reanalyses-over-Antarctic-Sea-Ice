@@ -144,7 +144,7 @@ set(get(h,'Title'),'string','Bias (K)')
 %% 
 
 figure
-[ha, pos] = tight_subplot(2,2,[0.01 0.02],[0.05 0.05],[.13 .13]);
+[ha, pos] = tight_subplot(2,2,[0.01 0.075],[0.05 0.05],[.13 .13]);
 title_name={'Quasi-ERA5','Quasi-JRA-55','Exp-SIT','Exp-SNOW'};
 text_all={'(a)','(b)','(c)','(d)'};
 
@@ -155,7 +155,8 @@ m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tick
 m_gshhs_l('color','k');
 caxis([-5 5])
 cmocean('balance',600);
-title('Quasi-JRA-55 - Quasi-ERA5','FontSize',18,'Interpreter','none')
+title('SIC & SIT contribution','FontSize',22,'Interpreter','none')
+ylabel('Quasi-JRA-55 - Quasi-ERA5','FontSize',22,'FontWeight','Bold','Interpreter','none')
 m_text(-43,-45,text_all{1},'fontsize',22,'fontname','bold')
 h=colorbar('eastoutside');
 set(h,'fontsize',18,'tickdir','out','linewidth',1)
@@ -168,7 +169,8 @@ m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tick
 m_gshhs_l('color','k');
 caxis([-5 5])
 cmocean('balance',600);
-title('Quasi-JRA-55 - Exp-SIT','FontSize',18,'Interpreter','none')
+title('SIC contribution','FontSize',22,'Interpreter','none')
+ylabel('Quasi-JRA-55 - Exp-SIT','FontSize',22,'FontWeight','Bold','Interpreter','none')
 m_text(-43,-45,text_all{2},'fontsize',22,'fontname','bold')
 h=colorbar('eastoutside');
 set(h,'fontsize',18,'tickdir','out','linewidth',1)
@@ -183,7 +185,8 @@ m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tick
 m_gshhs_l('color','k');
 caxis([-5 5])
 cmocean('balance',600);
-title('Exp-SIT - Quasi-ERA5','FontSize',18,'Interpreter','none')
+title('SIT contribution','FontSize',22,'Interpreter','none')
+ylabel('Exp-SIT - Quasi-ERA5','FontSize',22,'FontWeight','Bold','Interpreter','none')
 m_text(-43,-45,text_all{3},'fontsize',22,'fontname','bold')
 h=colorbar('eastoutside');
 set(h,'fontsize',18,'tickdir','out','linewidth',1)
@@ -196,7 +199,8 @@ m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tick
 m_gshhs_l('color','k');
 caxis([-5 5])
 cmocean('balance',600);
-title('Exp-SNOW - Quasi-ERA5','FontSize',18,'Interpreter','none')
+title('SNOW contribution','FontSize',22,'Interpreter','none')
+ylabel('Exp-SNOW - Quasi-ERA5','FontSize',22,'FontWeight','Bold','Interpreter','none')
 m_text(-43,-45,text_all{4},'fontsize',22,'fontname','bold')
 h=colorbar('eastoutside');
 set(h,'fontsize',18,'tickdir','out','linewidth',1)
