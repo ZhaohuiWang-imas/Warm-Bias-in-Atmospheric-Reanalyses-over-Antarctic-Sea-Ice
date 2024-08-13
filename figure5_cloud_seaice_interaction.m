@@ -270,7 +270,7 @@ legend('HCF','MCF','LCF','TCF')
 
 
 
-%%(c) cloud formation in four experiment with seasonal varying
+%% (c) cloud formation in four experiment with seasonal varying
 clear dates datestr datevec x* X
 %date of each experiment
 dates = datenum('02-Jan-2018'):datenum('03-Jan-2019');
@@ -419,10 +419,117 @@ set(h,'fontsize',18,'tickdir','out','linewidth',1)
 h.Label.String = 'Seasonal mean cloud fraction difference';
 set(h,'position',[.72 .23 .01 .5])
 
+%% new - 12Aug2024 
+figure
+%set(gcf,'unit','normalized','position',[.1 .1 .6 .85])
+data_name={'nosnow_15m_fra','nosnow_2m_fra','SIT_15m_SNOW_5_fra','a'};
+title_name={'Quasi-ERA5 - Quasi-JRA55','Exp-SIT - Quasi-JRA55', 'Exp-SNOW - Quasi-JRA55','a'};
+season={'ALL','JFM','AMJ','JAS','OND'};
+
+for i=1:4
+    for j=1
+ax1=axes('position',[0.1+0.16*(i-1) 0.75-0.18*(j-1) .18 .18]); % [left bottom width height]
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',50,'rectbox','on');
+if i==1
+m_contourf(lons,lats,TCC_nosnow_2m_bin_season{1}-TCC_nosnow_15m_fra_season{1}, -1:0.01:1,'LineStyle','None');
+elseif i==2
+m_contourf(lons,lats,TCC_nosnow_2m_bin_season{1}-TCC_nosnow_2m_fra_season{1}, -1:0.01:1,'LineStyle','None');
+elseif i==3
+m_contourf(lons,lats,TCC_nosnow_2m_fra_season{1}-TCC_nosnow_15m_fra_season{1}, -1:0.01:1,'LineStyle','None');
+elseif i==4
+m_contourf(lons,lats,TCC_SIT_15m_SNOW_5_fra_season{1}-TCC_nosnow_15m_fra_season{1}, -1:0.01:1,'LineStyle','None');
+end
+
+hold on
+%m_contour(lons,lats,seaice_conc_cdr_climitology{j},[0.8 0.8],'k','LineWidth',2);
+hold off
+m_gshhs_l('color','k');
+caxis([-0.2 0.2])
+cmocean('balance',40)
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+if j==1
+title(title_name{i},'FontSize',16)
+end
+if i==1
+ylabel(season{j},'FontSize',16,'FontWeight','bold')
+end
+
+    end
+%m_text(-45,-45,text_no1{i},'fontsize',25,'fontname','bold')
+end
+
+for i=1:4
+    for j=2
+ax1=axes('position',[0.1+0.16*(i-1) 0.75-0.18*(j-1) .18 .18]); % [left bottom width height]
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',50,'rectbox','on');
+if i==1
+m_contourf(lons,lats,TCC_nosnow_2m_bin_season{2}-TCC_nosnow_15m_fra_season{2}, -1:0.01:1,'LineStyle','None');
+elseif i==2
+m_contourf(lons,lats,TCC_nosnow_2m_bin_season{2}-TCC_nosnow_2m_fra_season{2}, -1:0.01:1,'LineStyle','None');
+elseif i==3
+m_contourf(lons,lats,TCC_nosnow_2m_fra_season{2}-TCC_nosnow_15m_fra_season{2}, -1:0.01:1,'LineStyle','None');
+elseif i==4
+m_contourf(lons,lats,TCC_SIT_15m_SNOW_5_fra_season{2}-TCC_nosnow_15m_fra_season{2}, -1:0.01:1,'LineStyle','None');
+end
+hold on
+%m_contour(lons,lats,seaice_conc_cdr_climitology{j},[0.8 0.8],'k','LineWidth',2);
+hold off
+m_gshhs_l('color','k');
+caxis([-0.2 0.2])
+cmocean('balance',40)
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+if j==1
+title(title_name{i},'FontSize',16)
+end
+if i==1
+ylabel(season{j},'FontSize',16,'FontWeight','bold')
+end
+
+    end
+%m_text(-45,-45,text_no2{i},'fontsize',25,'fontname','bold')
+end
+
+
+for i=1:4
+    for j=4
+ax1=axes('position',[0.1+0.16*(i-1) 0.75-0.18*(j-1) .18 .18]); % [left bottom width height]
+m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',50,'rectbox','on');
+if i==1
+m_contourf(lons,lats,TCC_nosnow_2m_bin_season{4}-TCC_nosnow_15m_fra_season{4}, -1:0.01:1,'LineStyle','None');
+elseif i==2
+m_contourf(lons,lats,TCC_nosnow_2m_bin_season{4}-TCC_nosnow_2m_fra_season{4}, -1:0.01:1,'LineStyle','None');
+elseif i==3
+m_contourf(lons,lats,TCC_nosnow_2m_fra_season{4}-TCC_nosnow_15m_fra_season{4}, -1:0.01:1,'LineStyle','None');
+elseif i==4
+m_contourf(lons,lats,TCC_SIT_15m_SNOW_5_fra_season{4}-TCC_nosnow_15m_fra_season{4}, -1:0.01:1,'LineStyle','None');
+end
+hold on
+%m_contour(lons,lats,seaice_conc_cdr_climitology{j},[0.8 0.8],'k','LineWidth',2);
+hold off
+m_gshhs_l('color','k');
+caxis([-0.2 0.2])
+cmocean('balance',40)
+m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
+if j==1
+title(title_name{i},'FontSize',16)
+end
+if i==1
+ylabel(season{j},'FontSize',16,'FontWeight','bold')
+end
+
+    end
+%m_text(-45,-45,text_no4{i},'fontsize',25,'fontname','bold')
+end
+
+
+h=colorbar('eastoutside');
+set(h,'fontsize',18,'tickdir','out','linewidth',1)
+h.Label.String = 'Seasonal mean cloud fraction difference';
+set(h,'position',[.72 .23 .01 .5])
 
 
 
-%%d) wintertime SEB between Quasi-ERA5 and Quasi-JRA55
+%% f) wintertime SEB between Quasi-ERA5 and Quasi-JRA55
 
 cd /Users/zhaohuiw/Documents/GitHub/Warm-Bias-in-Atmospheric-Reanalyses-over-Antarctic-Sea-Ice
 load Quasi_JRA55_ERA5_SEB data_*_season_domain 
@@ -514,14 +621,21 @@ text_no5={'(m)','(n)','(o)'};
 
 
 data_name={'nosnow_15m_fra','nosnow_2m_fra','SIT_15m_SNOW_5_fra'};
-title_name={'Quasi-ERA5 - Quasi-JRA55','Exp-SIT - Quasi-JRA55', 'Exp-SNOW - Quasi-JRA55'};
+title_name={'SIC&SIT contribution','SIC contribution', 'SIT contribution'};
 season={'ALL','JFM','AMJ','JAS','OND'};
 
 for i=1:3
     for j=1
 ax3=axes('position',[0.04+0.14*(i-1) 0.43-0.18*(j-1) .18 .16]); % [left bottom width height]
 m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',50,'rectbox','on');
-m_contourf(lons,lats,eval(['TCC_',data_name{i},'_season{1}'])-TCC_nosnow_2m_bin_season{1}, -1:0.01:1,'LineStyle','None');
+%m_contourf(lons,lats,eval(['TCC_',data_name{i},'_season{1}'])-TCC_nosnow_2m_bin_season{1}, -1:0.01:1,'LineStyle','None');
+if i==1
+    m_contourf(lons,lats,TCC_nosnow_15m_fra_season{1}-TCC_nosnow_2m_bin_season{1}, -1:0.01:1,'LineStyle','None');
+elseif i==3
+    m_contourf(lons,lats,TCC_nosnow_15m_fra_season{1}-TCC_nosnow_2m_fra_season{1}, -1:0.01:1,'LineStyle','None');
+elseif i==2
+    m_contourf(lons,lats,TCC_nosnow_2m_fra_season{1}-TCC_nosnow_2m_bin_season{1}, -1:0.01:1,'LineStyle','None');
+end
 hold on
 %m_contour(lons,lats,seaice_conc_cdr_climitology{j},[0.8 0.8],'k','LineWidth',2);
 hold off
@@ -530,7 +644,7 @@ caxis([-0.2 0.2])
 cmocean('balance',40)
 m_grid('tickdir','in','xtick',-180:60:180,'ytick',-80:10:-60,'fontsize',16,'tickdir','in','xticklabel','','yticklabel','','box','fancy');
 if j==1
-title(title_name{i},'FontSize',12)
+title(title_name{i},'FontSize',16)
 end
 if i==1
 ylabel(season{j},'FontSize',16)
@@ -544,7 +658,14 @@ for i=1:3
     for j=2
 ax4=axes('position',[0.04+0.14*(i-1) 0.43-0.18*(j-1) .18 .16]); % [left bottom width height]
 m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',50,'rectbox','on');
-m_contourf(lons,lats,eval(['TCC_',data_name{i},'_season{2}'])-TCC_nosnow_2m_bin_season{2}, -1:0.01:1,'LineStyle','None');
+%m_contourf(lons,lats,eval(['TCC_',data_name{i},'_season{2}'])-TCC_nosnow_2m_bin_season{2}, -1:0.01:1,'LineStyle','None');
+if i==1
+    m_contourf(lons,lats,TCC_nosnow_15m_fra_season{2}-TCC_nosnow_2m_bin_season{2}, -1:0.01:1,'LineStyle','None');
+elseif i==3
+    m_contourf(lons,lats,TCC_nosnow_15m_fra_season{2}-TCC_nosnow_2m_fra_season{2}, -1:0.01:1,'LineStyle','None');
+elseif i==2
+    m_contourf(lons,lats,TCC_nosnow_2m_fra_season{2}-TCC_nosnow_2m_bin_season{2}, -1:0.01:1,'LineStyle','None');
+end
 hold on
 %m_contour(lons,lats,seaice_conc_cdr_climitology{j},[0.8 0.8],'k','LineWidth',2);
 hold off
@@ -568,7 +689,14 @@ for i=1:3
     for j=3
 ax5=axes('position',[0.04+0.14*(i-1) 0.43-0.18*(j-1) .18 .16]); % [left bottom width height]
 m_proj('azimuthal equal-area','latitude',-87,'longitude',3,'radius',50,'rectbox','on');
-m_contourf(lons,lats,eval(['TCC_',data_name{i},'_season{4}'])-TCC_nosnow_2m_bin_season{4}, -1:0.01:1,'LineStyle','None');
+%m_contourf(lons,lats,eval(['TCC_',data_name{i},'_season{4}'])-TCC_nosnow_2m_bin_season{4}, -1:0.01:1,'LineStyle','None');
+if i==1
+    m_contourf(lons,lats,TCC_nosnow_15m_fra_season{4}-TCC_nosnow_2m_bin_season{4}, -1:0.01:1,'LineStyle','None');
+elseif i==3
+    m_contourf(lons,lats,TCC_nosnow_15m_fra_season{4}-TCC_nosnow_2m_fra_season{4}, -1:0.01:1,'LineStyle','None');
+elseif i==2
+    m_contourf(lons,lats,TCC_nosnow_2m_fra_season{4}-TCC_nosnow_2m_bin_season{4}, -1:0.01:1,'LineStyle','None');
+end
 hold on
 %m_contour(lons,lats,seaice_conc_cdr_climitology{j},[0.8 0.8],'k','LineWidth',2);
 hold off
