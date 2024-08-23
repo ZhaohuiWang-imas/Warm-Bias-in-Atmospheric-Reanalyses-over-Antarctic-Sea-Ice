@@ -102,6 +102,8 @@ end
 m_text(-45,-45,text_no1{i},'fontsize',28,'fontname','bold')
 end
 
+%prepare data for save for publication
+ERA5_ME_noTCF=ERA5_ME{1}; ERAI_ME_noTCF=ERAI_ME{1}; MERRA2_ME_noTCF=MERRA2_ME{1}; JRA3Q_ME_noTCF=JRA3Q_ME{1}; NCEPR2_ME_noTCF=NCEPR2_ME{1}; JRA55_ME_noTCF=JRA55_ME{1};
 
 %%
 
@@ -181,6 +183,9 @@ end
 m_text(-45,-45,text_no2{i},'fontsize',28,'fontname','bold')
 end
 
+%prepare data for save for publication
+ERA5_ME_TCF=ERA5_ME{1}; ERAI_ME_TCF=ERAI_ME{1}; MERRA2_ME_TCF=MERRA2_ME{1}; JRA3Q_ME_TCF=JRA3Q_ME{1}; NCEPR2_ME_TCF=NCEPR2_ME{1}; JRA55_ME_TCF=JRA55_ME{1};
+
 
 h=colorbar('eastoutside');
 set(h,'fontsize',25,'tickdir','out','linewidth',1)
@@ -192,3 +197,7 @@ set(h,'position',[.70 .20 .01 .57])
 m_text(0.05,0.05,'MODIS cloud mask','fontsize',28,'fontweight','bold','rotation',90,'horizontalalignment','center','units','normalized')
 
 m_text(0.05,0.05,'MODIS +TCF cloud mask','fontsize',28,'fontweight','bold','rotation',90,'horizontalalignment','center','units','normalized')
+
+% %save figure data for publication
+% cd /Users/zhaohuiw/Documents/GitHub/IST_bias_paper_data
+% save Figure1 lons lats  *_ME_TCF *_ME_noTCF

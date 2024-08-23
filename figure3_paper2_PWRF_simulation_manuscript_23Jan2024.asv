@@ -415,12 +415,11 @@ set(titleObj, 'string', 'W/m^2');
 set(titleObj, 'HorizontalAlignment', 'left');
 
 
-% % save figure data for publication 
-% Quasi_ERA5_IST_figure=data_TSK_15_nosnow_frac_season{1};
-% Quasi_JRA55_IST_figure=data_TSK_20_nosnow_binary_season{1};
-% ERA5_IST_figure=ERA5_ME{1};JRA55_IST_figure=JRA55_ME{1};
-% Conduction_figure=R;
-% 
-% cd /Users/zhaohuiw/Documents/GitHub/IST_bias_paper_data
-% save Figure3.mat lons lats Quasi_ERA5_IST_figure Quasi_JRA55_IST_figure ERA5_IST_figure JRA55_IST_figure Conduction_figure
-% 
+% save figure data for publication 
+Quasi_ERA5_IST_figure=data_TSK_15_nosnow_frac_season{1};
+Quasi_JRA55_IST_figure=data_TSK_20_nosnow_binary_season{1};
+ERA5_IST_figure=ERA5_ME{1};JRA55_IST_figure=JRA55_ME{1};
+Conduction_figure=R;
+
+cd /Users/zhaohuiw/Documents/GitHub/IST_bias_paper_data
+save Figure3.mat lons lats Quasi_ERA5_IST_figure Quasi_JRA55_IST_figure ERA5_IST_figure JRA55_IST_figure Conduction_figure
